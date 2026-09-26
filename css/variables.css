@@ -1,0 +1,153 @@
+/* ==========================================================================
+   monish · 1/10 · variables.css
+   设计令牌（DESIGN-CONTRACT.md §2）—— 唯一颜色真相
+
+   三态主题：
+     :root                        浅色（默认，也是 html[data-theme="light"] 的取值）
+     html[data-theme="dark"]      强制深色
+     @media (prefers-color-scheme: dark) + html:not([data-theme])   自动兜底
+       （无 JS 时 data-theme 不存在；有 JS 时 head 内联脚本总会写入 data-theme，
+        因此兜底媒体查询永远不会和显式选择冲突）
+
+   注意：两处深色令牌块必须保持完全一致（纯 CSS 无 mixin，只能复制）。
+   自检：tools 用正则取出 DARK TOKENS BEGIN/END 两段并逐行比对。
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* ---------------------------------------------------------------- 颜色 */
+  /* 用户可配令牌：head.ejs 在 10 个样式表**之前**注入
+     `:root{--user-accent:…;--user-accent-dark:…;--user-radius:…;
+            --user-font-serif:…;--user-font-mono:…}`。
+     该注入块与这里的 :root 同优先级、且被本文件覆盖，因此只有靠 var() 回退
+     取值才能真正生效；未注入时回退到契约 §2 的内置默认值（行为向后兼容）。 */
+  --accent: var(--user-accent, #7FA88B);
+  /* 深色模式强调色（appearance.accent_dark）；浅色下仅作令牌，不参与配色 */
+  --accent-dark: var(--user-accent-dark, #8FBF9F);
+  --accent-strong: #5F8A6C;
+  --accent-soft: #E4EDE5;
+  --accent-contrast: #FFFFFF;
+  --bg: #FBFAF6;
+  --bg-elevated: #FFFFFF;
+  --bg-hero: var(--accent);
+  --text: #2C3330;
+  --text-strong: #1A211D;
+  --text-muted: #6E7A72;
+  --border: #E3E5DE;
+  --border-strong: #CFD6CB;
+  --code-bg: #F3F5F0;
+  --shadow-sm: 0 1px 2px rgba(28, 40, 32, .06);
+  --shadow-md: 0 8px 24px rgba(28, 40, 32, .08);
+  --shadow-lg: 0 18px 48px rgba(28, 40, 32, .12);
+
+  /* ------------------------------------------------------------ 字体族 */
+  /* serif / mono 同样可被 appearance.serif_font / code_font 覆盖 */
+  --font-serif: var(--user-font-serif, "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun",
+    Georgia, "Times New Roman", "PingFang SC", "Microsoft YaHei", serif);
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", "Hiragino Sans GB", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* 代码等宽字体：按「常见 IDE 字体」优先级排列。
+     ① 编辑器自带/常见社区字体（装了就用，最好看）
+     ② 各平台出厂自带的 IDE 等宽（Consolas / SF Mono / Menlo / DejaVu）
+     ③ 中文等宽（代码里的中文注释不会掉进非等宽字体）
+     ④ ui-monospace / monospace 兜底
+     想固定某个字体用 appearance.code_font 覆盖即可。 */
+  --font-mono: var(--user-font-mono,
+    "Cascadia Code", "Cascadia Mono", "JetBrains Mono", "JetBrainsMono Nerd Font",
+    "Fira Code", "Fira Mono", "Source Code Pro", "IBM Plex Mono", "Roboto Mono",
+    "Hack", "Inconsolata", "Victor Mono", "Anonymous Pro",
+    "SF Mono", SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "DejaVu Sans Mono", "Ubuntu Mono", "Noto Sans Mono",
+    "Sarasa Mono SC", "Sarasa Fixed SC", "Noto Sans Mono CJK SC",
+    "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB",
+    ui-monospace, monospace);
+
+  /* -------------------------------------------------------- 排版 / 尺寸 */
+  --fs-base: 17px;
+  --lh-base: 1.9;
+  --fs-hero: clamp(2.2rem, 7vw, 4.6rem);
+  --fs-h2: clamp(1.5rem, 3.4vw, 2.1rem);
+  --content-width: 760px;
+  --wide-width: 1120px;
+  --card-width: 340px;
+  --radius: var(--user-radius, 12px);
+  --radius-sm: 8px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* ---------------------------------------------------------------- 动效 */
+  --speed-fast: 160ms;
+  --speed: 320ms;
+  --speed-slow: 720ms;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+
+  --nav-height: 64px;
+}
+
+/* ==== DARK TOKENS BEGIN ==== */
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* 深色强调色：用户可配（appearance.accent_dark）。strong/soft/contrast
+     随新的 --accent 就地推导（混入同主题的 --text-strong / --bg，不引入任何
+     额外字面色），改动 accent_dark 时整条深色强调色一起联动；默认值下结果
+     与契约 §2.1 的 #A9D3B6 / #26362C / #0F1A13 基本一致
+     （深底对比度：accent-strong 11:1、accent 9:1、contrast-on-accent 7:1）。
+     --bg / --text-strong 与本块同元素，引用顺序不影响解析。 */
+  --accent: var(--user-accent-dark, #8FBF9F);
+  --accent-strong: color-mix(in srgb, var(--accent) 74%, var(--text-strong));
+  --accent-soft: color-mix(in srgb, var(--accent) 18%, var(--bg));
+  --accent-contrast: color-mix(in srgb, var(--accent) 12%, var(--bg));
+  --bg: #101512;
+  --bg-elevated: #171E19;
+  --bg-hero: #1B2A20;
+  --text: #E7E9E4;
+  --text-strong: #F6F8F4;
+  --text-muted: #9AA79F;
+  --border: #2A332C;
+  --border-strong: #3A463C;
+  --code-bg: #141B16;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, .5);
+  --shadow-lg: 0 18px 48px rgba(0, 0, 0, .6);
+}
+/* ==== DARK TOKENS END ==== */
+
+/* ==== DARK TOKENS BEGIN ==== */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    color-scheme: dark;
+
+    /* 深色强调色：用户可配（appearance.accent_dark）。strong/soft/contrast
+       随新的 --accent 就地推导（混入同主题的 --text-strong / --bg，不引入任何
+       额外字面色），改动 accent_dark 时整条深色强调色一起联动；默认值下结果
+       与契约 §2.1 的 #A9D3B6 / #26362C / #0F1A13 基本一致
+       （深底对比度：accent-strong 11:1、accent 9:1、contrast-on-accent 7:1）。
+       --bg / --text-strong 与本块同元素，引用顺序不影响解析。 */
+    --accent: var(--user-accent-dark, #8FBF9F);
+    --accent-strong: color-mix(in srgb, var(--accent) 74%, var(--text-strong));
+    --accent-soft: color-mix(in srgb, var(--accent) 18%, var(--bg));
+    --accent-contrast: color-mix(in srgb, var(--accent) 12%, var(--bg));
+    --bg: #101512;
+    --bg-elevated: #171E19;
+    --bg-hero: #1B2A20;
+    --text: #E7E9E4;
+    --text-strong: #F6F8F4;
+    --text-muted: #9AA79F;
+    --border: #2A332C;
+    --border-strong: #3A463C;
+    --code-bg: #141B16;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, .5);
+    --shadow-lg: 0 18px 48px rgba(0, 0, 0, .6);
+  }
+}
+/* ==== DARK TOKENS END ==== */

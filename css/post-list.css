@@ -1,0 +1,336 @@
+/* ==========================================================================
+   monish · 5/10 · post-list.css
+   最新博文区 / 文章卡片 / 元信息 / 标签片 / 分页 / 滚动入场
+   ========================================================================== */
+
+/* ------------------------------------------------------------- 区块外壳 */
+.latest-posts {
+  padding-block: var(--space-8) var(--space-7);
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.section-title {
+  position: relative;
+  /* 独立使用时（不在 .section-head 里）也要有段落节奏 */
+  margin: var(--space-7) 0 var(--space-4);
+  font-size: var(--fs-h2);
+  line-height: 1.3;
+}
+
+.section-head .section-title {
+  margin: 0;
+}
+
+/* 强调色短线只属于 .section-head（标题与下方分隔线贴合）；
+   独立标题不画线，避免短线压到后面的内容 */
+.section-head .section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: calc(var(--space-3) * -1 - 1px);
+  width: 48px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.section-more {
+  flex: 0 0 auto;
+  font-family: var(--font-sans);
+  font-size: .875rem;
+  color: var(--accent-strong);
+  color: color-mix(in srgb, var(--accent-strong) 82%, var(--text-strong));
+  white-space: nowrap;
+}
+
+/* 箭头由模板里的 .fa 图标负责（契约 §4），这里只补位移反馈 */
+.section-more .fa,
+.post-card-more .fa {
+  display: inline-block;
+  transition: transform var(--speed-fast) var(--ease);
+}
+
+.section-more:hover {
+  text-decoration: none;
+  color: var(--accent-strong);
+}
+
+.section-more:hover .fa,
+.post-card-more:hover .fa {
+  transform: translateX(3px);
+}
+
+/* --------------------------------------------------------------- 卡片栅格 */
+/* 列数 / 卡片最小宽度来自模板内联变量（契约 §1：posts.columns 1~4、
+   posts.card_min_width）：
+     <div class="post-list" style="--card-min:300px;--card-columns:3">
+   归档 / 分类 / 标签 / 搜索用的 _partial/post-list.ejs 不带内联变量，
+   所以两个 fallback（300px / 3）不能省。
+
+   栅格写法：repeat(auto-fill, minmax(min(100%, max(卡片最小宽度,
+   (100% - 间隙·(列数-1)) / 列数)), 1fr))
+   —— minmax 的下界取「卡片最小宽度」与「按配置列数均分」的较大者：
+      · 容器够宽时下界 = 均分值 → 正好呈现配置的列数（列数是上限）
+      · 容器变窄时下界 = 卡片最小宽度 → auto-fill 自动降列，不横向溢出
+      · 外层 min(100%, …) 是最后一道保险：容器比一张卡片还窄时也只有一列
+   用 auto-fill（不是 auto-fit）：文章数少于列数时保留空轨道，
+   卡片宽度与现在一致（不会被拉伸成超宽卡片）。
+   注：算式里的间隙固定用 --space-6；≤1200px 段实际 gap 收窄到 --space-5，
+   此时算式偏保守（可能少一列），但绝不会溢出——这是刻意的取安全侧。 */
+.post-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,
+    minmax(min(100%, max(var(--card-min, 300px),
+      calc((100% - (var(--card-columns, 3) - 1) * var(--space-6)) / var(--card-columns, 3)))), 1fr));
+  align-items: stretch;
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 有侧栏时（归档 / 分类 / 标签）列宽回到 --card-width 量级，避免多列过窄；
+   内容列已被侧栏收窄，所以固定成 2 列（用户显式配 1 列时尊重用户）。 */
+.layout-2col .post-list {
+  grid-template-columns: repeat(min(2, var(--card-columns, 3)), minmax(0, 1fr));
+}
+
+.post-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  transition: transform var(--speed-fast) var(--ease), box-shadow var(--speed-fast) var(--ease),
+    border-color var(--speed-fast) var(--ease);
+}
+
+.post-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.post-card-cover {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--accent-soft);
+}
+
+.post-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--speed-slow) var(--ease);
+}
+
+.post-card:hover .post-card-cover img {
+  transform: scale(1.03);
+}
+
+.post-card-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-5);
+}
+
+.post-card-title {
+  margin: 0;
+  font-size: 1.1875rem;
+  line-height: 1.5;
+}
+
+.post-card-title a {
+  color: var(--text-strong);
+}
+
+.post-card-title a:hover {
+  color: var(--accent-strong);
+  text-decoration: none;
+}
+
+.post-card-excerpt {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: .9375rem;
+  line-height: 1.85;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.post-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-4);
+  /* 把「元信息 + 阅读全文」整组压到卡片底部：
+     只用一处 auto margin，两个 auto 会平分剩余空间、把元信息挤到中间 */
+  margin-top: auto;
+  padding-top: var(--space-1);
+  font-family: var(--font-sans);
+  font-size: .8125rem;
+}
+
+/* 无元信息时，阅读全文 直接接在摘要后，此时由它自己吃掉剩余空间 */
+.post-card-excerpt + .post-card-more {
+  margin-top: auto;
+}
+
+.post-card-more {
+  align-self: flex-start;
+  font-family: var(--font-sans);
+  font-size: .875rem;
+  font-weight: 600;
+}
+
+/* ----------------------------------------------------------------- 元信息 */
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: .4em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.meta-item .fa {
+  font-size: .95em;
+  opacity: .85;
+}
+
+.meta-item a {
+  color: inherit;
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.meta-item a:hover {
+  color: var(--accent-strong);
+  border-bottom-color: var(--accent);
+  text-decoration: none;
+}
+
+/* ----------------------------------------------------------------- 标签片 */
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: .12em .7em;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  color: color-mix(in srgb, var(--accent-strong) 70%, var(--text-strong));
+  font-family: var(--font-sans);
+  font-size: .8125rem;
+  line-height: 1.9;
+}
+
+.tag-chip:hover {
+  /* 与标签云真实 DOM 的 `.tagcloud-wrap > a:hover` 同一套思路：
+     加深浅绿底 + 加深文字，两种主题都够对比 */
+  background: var(--accent-soft);
+  background: color-mix(in srgb, var(--accent-soft) 62%, var(--accent));
+  color: color-mix(in srgb, var(--accent-strong) 48%, var(--text-strong));
+  text-decoration: none;
+}
+
+/* ------------------------------------------------------------------- 分页 */
+/* 容器角色：模板把 paginator() 输出包进 <nav class="pagination">，
+   因此这里不依赖标签是 nav / div / ul（清掉 list 与默认外边距） */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  margin: var(--space-7) 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-sans);
+}
+
+.page-number,
+.pagination .extend {
+  display: inline-flex;
+  /* 不允许被压缩：不够宽时交给 .pagination 的 flex-wrap 换行，
+     否则「上一页 / 下一页」的文字会被挤到按钮外 */
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  color: var(--text);
+  font-size: .9375rem;
+  transition: color var(--speed-fast) var(--ease), background-color var(--speed-fast) var(--ease),
+    border-color var(--speed-fast) var(--ease);
+}
+
+.page-number:hover,
+.pagination .extend:hover {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+  text-decoration: none;
+}
+
+.page-number.current {
+  border-color: transparent;
+  background: var(--accent-soft);
+  color: var(--text-strong);
+  font-weight: 600;
+}
+
+/* 上一页 / 下一页：与 .page-number 同一套按钮态，文字色压到次级、
+   留出更宽的横向内边距（内容是「上一页 / 下一页」这类词） */
+.pagination .extend {
+  padding-inline: var(--space-4);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.pagination .extend:hover {
+  color: var(--accent-strong);
+}
+
+.pagination .extend.is-hidden {
+  display: none;
+}
+
+/* --------------------------------------------------- 滚动入场 [data-reveal] */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--speed-slow) var(--ease), transform var(--speed-slow) var(--ease);
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 动画关闭时始终可见、无位移 */
+html[data-animation="false"] [data-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}

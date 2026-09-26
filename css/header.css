@@ -1,0 +1,343 @@
+/* ==========================================================================
+   monish · 3/10 · header.css
+   阅读进度条 / 固定顶栏（首页覆盖 hero）/ 主题切换 / 移动抽屉
+   状态：.is-overlay（模板，首页首屏）、.is-scrolled（JS）、.is-open（JS 抽屉）
+   ========================================================================== */
+
+/* ------------------------------------------------------------ 阅读进度条 */
+.progress-bar {
+  position: fixed;
+  inset: 0 auto auto 0;
+  width: 0;
+  height: 3px;
+  z-index: 70;
+  background: var(--accent-strong);
+  transition: width 120ms linear;
+  pointer-events: none;
+}
+
+/* 进度条容器（post.ejs 末尾）：自身不占位，实际进度由 fixed 的 #progress-bar 呈现 */
+.reading-progress {
+  display: block;
+}
+
+.reading-progress .progress-bar {
+  position: fixed;
+}
+
+/* ------------------------------------------------------------------ 顶栏 */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  transition: background-color var(--speed) var(--ease),
+    box-shadow var(--speed) var(--ease),
+    border-color var(--speed) var(--ease);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: var(--nav-height);
+}
+
+/* 站点标识 */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 0 0 auto;
+  min-width: 0;
+  color: var(--text-strong);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: .01em;
+}
+
+.brand:hover {
+  color: var(--text-strong);
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  /* 浅色：--accent 是中等明度的浅绿，白字只有 2.7:1；
+     改用最深墨色 ≈6.2:1（AA 小字合格） */
+  color: var(--text-strong);
+  font-family: var(--font-serif);
+  font-size: .875rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* 深色：#8FBF9F 是偏亮的浅绿，前景换回深墨 --accent-contrast ≈7.2:1 */
+html[data-theme="dark"] .brand-mark {
+  color: var(--accent-contrast);
+}
+
+/* 无 JS（没有 data-theme）时的自动深色兜底，与上一条保持同一取值 */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) .brand-mark {
+    color: var(--accent-contrast);
+  }
+}
+
+.brand-text {
+  font-size: 1.0625rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 主导航 */
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-inline-start: auto;
+  min-width: 0;
+}
+
+.main-nav-link {
+  position: relative;
+  display: inline-block;
+  padding: .35em .7em;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: .9375rem;
+  white-space: nowrap;
+  transition: color var(--speed-fast) var(--ease), background-color var(--speed-fast) var(--ease);
+}
+
+.main-nav-link:hover {
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+  text-decoration: none;
+}
+
+.main-nav-link.is-active {
+  color: var(--accent-strong);
+  font-weight: 600;
+}
+
+.main-nav-link.is-active::after {
+  content: "";
+  position: absolute;
+  left: .7em;
+  right: .7em;
+  bottom: -.12em;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+/* 右侧操作区 */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex: 0 0 auto;
+  margin-inline-start: var(--space-2);
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-width: 38px;
+  height: 38px;
+  padding: 0 .55em;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  transition: color var(--speed-fast) var(--ease), background-color var(--speed-fast) var(--ease),
+    border-color var(--speed-fast) var(--ease);
+}
+
+.icon-btn:hover {
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+  text-decoration: none;
+}
+
+.icon-btn:active {
+  transform: translateY(1px);
+}
+
+.theme-toggle-label {
+  font-family: var(--font-sans);
+  font-size: .8125rem;
+  white-space: nowrap;
+}
+
+.nav-toggle {
+  display: none;
+}
+
+/* --------------------------------------------- 首页未滚动：覆盖在 hero 上 */
+.site-header.is-overlay {
+  background: transparent;
+  border-bottom-color: transparent;
+  box-shadow: none;
+}
+
+/* 覆盖态：hero 顶部是浅绿纸面，用最深的墨色 + 纸雾交互保证可读
+   （白色文字在 #7FA88B 上只有 2.4:1，深墨为 6.8:1；深色主题的 hero 本身
+     是 #1B2A20，--text 即浅色，自动成立） */
+.site-header.is-overlay .brand,
+.site-header.is-overlay .brand-text,
+.site-header.is-overlay .main-nav-link,
+.site-header.is-overlay .icon-btn {
+  color: var(--text-strong);
+}
+
+.site-header.is-overlay .icon-btn:hover,
+.site-header.is-overlay .main-nav-link:hover {
+  background: color-mix(in srgb, var(--bg) 36%, transparent);
+  color: var(--text-strong);
+}
+
+.site-header.is-overlay .main-nav-link.is-active {
+  color: var(--text-strong);
+}
+
+/* 覆盖态下划线更粗更低，在绿色上足够醒目 */
+.site-header.is-overlay .main-nav-link.is-active::after {
+  left: .62em;
+  right: .62em;
+  bottom: -.3em;
+  height: 3px;
+  background: var(--text-strong);
+}
+
+/* ------------------------------------------------- 滚动后：实底 + 轻投影 */
+.site-header.is-scrolled {
+  background: var(--bg);
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  -webkit-backdrop-filter: blur(12px) saturate(1.08);
+  backdrop-filter: blur(12px) saturate(1.08);
+  border-bottom-color: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+/* -------------------------------------------------------------- 移动抽屉 */
+/* 遮罩：z-index 45 低于顶栏(50)，保证顶栏里的 ☰/× 始终可点 */
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: color-mix(in srgb, var(--text-strong) 38%, transparent);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity var(--speed) var(--ease);
+}
+
+.nav-backdrop[hidden] {
+  display: none;
+}
+
+.nav-backdrop.is-open {
+  opacity: 1;
+}
+
+.nav-drawer {
+  position: fixed;
+  /* 浮层卡片：贴顶栏下沿、右侧留边；高度随内容（不再是撑满一屏的空面板），
+     只有菜单项多到超过可视高度时才在面板内滚动。bottom 必须是 auto，
+     否则面板又会被拉满高度。 */
+  inset: calc(var(--nav-height) + var(--space-2)) var(--space-2) auto auto;
+  z-index: 60;
+  width: min(80vw, 300px);
+  /* 上留 72px（顶栏 64 + 8）、下留 8px；dvh 让移动端地址栏展开时也不超出 */
+  max-height: calc(100vh - var(--nav-height) - var(--space-4));
+  max-height: calc(100dvh - var(--nav-height) - var(--space-4));
+  padding: var(--space-3);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* 收起态：整体右移出屏 + 透明，配合 JS 的 hidden 切换做进出场 */
+  transform: translateX(calc(100% + var(--space-4)));
+  opacity: 0;
+  visibility: hidden;
+  transition: transform var(--speed) var(--ease), opacity var(--speed) var(--ease),
+    visibility var(--speed) var(--ease);
+}
+
+/* display:flex/block 会覆盖 UA 的 [hidden]{display:none}，必须显式兜底 */
+.nav-drawer[hidden] {
+  display: none;
+}
+
+.nav-drawer.is-open {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav-drawer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.drawer-link {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: .9375rem;
+  /* 逐项淡入；收起时不带延迟，避免"赖着不走" */
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity var(--speed) var(--ease), transform var(--speed) var(--ease),
+    background-color var(--speed-fast) var(--ease), color var(--speed-fast) var(--ease);
+  transition-delay: 0s;
+}
+
+.nav-drawer.is-open .drawer-link {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: calc(var(--drawer-i, 0) * 45ms);
+}
+
+.drawer-link:nth-child(1) { --drawer-i: 0; }
+.drawer-link:nth-child(2) { --drawer-i: 1; }
+.drawer-link:nth-child(3) { --drawer-i: 2; }
+.drawer-link:nth-child(4) { --drawer-i: 3; }
+.drawer-link:nth-child(5) { --drawer-i: 4; }
+.drawer-link:nth-child(6) { --drawer-i: 5; }
+.drawer-link:nth-child(7) { --drawer-i: 6; }
+.drawer-link:nth-child(n+8) { --drawer-i: 7; }
+
+.drawer-link:hover {
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+  text-decoration: none;
+}
+
+.drawer-link.is-active {
+  color: var(--accent-strong);
+  font-weight: 600;
+  background: var(--accent-soft);
+}

@@ -1,0 +1,310 @@
+/* ==========================================================================
+   monish · 4/10 · hero.css
+   首页首屏：全屏铺满强调色 + 纸上薄雾 + 淡入上浮入场
+   入场时序（DESIGN-CONTRACT.md §3.4）：标题 0ms / 副标题 120ms / 下滑提示 320ms
+   降级：html 无 .hero-ready 时不播放（由 JS 添加，见 head 内的 noscript 建议）；
+         html[data-animation="false"] 与 prefers-reduced-motion: reduce 直接终态。
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: calc(var(--nav-height) + var(--space-7)) var(--space-5) var(--space-8);
+  color: var(--text);
+  text-align: center;
+  /* 高度由模板内联的 --hero-height 驱动（hero.height，缺省 100vh）；
+     绝不写死 100vh，否则用户配置的 60vh / 720px 会失效 */
+  height: var(--hero-height, 100vh);
+  min-height: var(--hero-height, 100vh);
+}
+
+/* full 布局：铺满一屏（窄屏的 svh 兜底见 responsive.css ≤768px） */
+.hero--full {
+  height: var(--hero-height, 100vh);
+  min-height: var(--hero-height, 100vh);
+}
+
+/* center 布局：非全屏的居中内容区，高度随内容走（背景仍走 .hero-bg / .hero-overlay） */
+.hero--center {
+  height: auto;
+  min-height: 0;
+  padding-block: calc(var(--nav-height) + var(--space-6)) var(--space-7);
+}
+
+/* banner 布局：较矮的顶部横幅（适合 background: image），内容靠下；
+   配置高度更高时封顶在 46vh，避免「横幅」变回满屏 */
+.hero--banner {
+  height: auto;
+  min-height: min(var(--hero-height, 46vh), 46vh);
+  justify-content: flex-end;
+  padding-block: calc(var(--nav-height) + var(--space-5)) var(--space-5);
+}
+
+/* 横幅里的标题降一档，短横幅才放得下 */
+.hero--banner .hero-title {
+  font-size: clamp(1.5rem, 3.6vw, 2.6rem);
+}
+
+/* center / banner 不是满屏首屏：绝对定位在底部的下滑提示会压住内容，
+   这两个布局下不显示（hero.height 仍是满屏语义时用 full） */
+.hero--center .hero-scroll,
+.hero--banner .hero-scroll {
+  display: none;
+}
+
+/* --------------------------------------------------------------- 背景层 */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: var(--bg-hero);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* 莫奈睡莲的静态光晕（非动画渐变，仅作为纸面的呼吸感） */
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(120% 90% at 50% 4%,
+    color-mix(in srgb, var(--accent-strong) 22%, transparent), transparent 64%);
+}
+
+/* 薄雾：让强调色更像纸（背景图模式下同时保证墨色文字可读） */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--bg);
+  opacity: var(--hero-overlay-alpha, .18);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------- 内容层 */
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: var(--content-width);
+}
+
+.hero-title {
+  font-size: var(--fs-hero);
+  line-height: 1.14;
+  letter-spacing: .005em;
+  color: var(--text-strong);
+  text-wrap: balance;
+}
+
+.hero-subtitle {
+  max-width: 46ch;
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  line-height: 1.75;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2) var(--space-4);
+  font-family: var(--font-sans);
+  font-size: .875rem;
+  letter-spacing: .02em;
+  color: var(--text);
+}
+
+.hero-meta > * + * {
+  padding-inline-start: var(--space-4);
+  border-inline-start: 1px solid color-mix(in srgb, var(--text) 28%, transparent);
+}
+
+/* 「N 篇文章 / 已运行 N 年」：hero 底色是浅绿纸面（浅色主题），
+   用最深的墨色保证 ≥4.5:1；深色主题下 --text-strong 是浅色，同样成立 */
+.hero-meta-item {
+  color: var(--text-strong);
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------------- 下滑提示 */
+.hero-scroll {
+  position: absolute;
+  inset: auto auto var(--space-6) 50%;
+  z-index: 1;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: .75rem;
+  letter-spacing: .16em;
+}
+
+.hero-scroll:hover {
+  color: var(--text-strong);
+  text-decoration: none;
+}
+
+.hero-scroll-text {
+  white-space: nowrap;
+}
+
+.hero-scroll-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+  animation: monish-hero-nudge 2.4s var(--ease) infinite;
+}
+
+@keyframes monish-hero-nudge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+/* 装饰光斑（hero.particles: true 时模板输出 6 个 .hero-particle，带内联 --i）。
+   睡莲光斑 = 纸色柔光 + 极慢的呼吸上浮，位于遮罩之上、内容之下 */
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-particle {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%,
+    color-mix(in srgb, var(--bg) 58%, var(--accent)), transparent 72%);
+  opacity: .5;
+  /* --i 由模板内联（0..5）：错开每个光斑的呼吸相位 */
+  animation: monish-lily-float 9s var(--ease) infinite alternate;
+  animation-delay: calc(var(--i, 0) * -1.3s);
+}
+
+.hero-particle:nth-child(1) { left: 9%; top: 24%; width: 26px; height: 26px; }
+.hero-particle:nth-child(2) { left: 21%; top: 64%; width: 13px; height: 13px; }
+.hero-particle:nth-child(3) { left: 37%; top: 16%; width: 10px; height: 10px; }
+.hero-particle:nth-child(4) { left: 63%; top: 70%; width: 22px; height: 22px; }
+.hero-particle:nth-child(5) { left: 79%; top: 28%; width: 12px; height: 12px; }
+.hero-particle:nth-child(6) { left: 89%; top: 57%; width: 16px; height: 16px; }
+
+@keyframes monish-lily-float {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: .32;
+  }
+  to {
+    transform: translate3d(6px, -10px, 0) scale(1.12);
+    opacity: .68;
+  }
+}
+
+/* 底边收口：1px 深一档的强调色，让「满屏绿 → 纸白」有明确纸张边界 */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: var(--accent-strong);
+  opacity: .45;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------ 入场动画 */
+.hero-title,
+.hero-subtitle,
+.hero-meta,
+.hero-scroll {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity var(--speed-slow) var(--ease), transform var(--speed-slow) var(--ease);
+  transition-delay: 0ms;
+  will-change: opacity, transform;
+}
+
+/* 下滑提示用 left:50% 居中，位移必须保留 translateX */
+.hero-scroll {
+  transform: translate(-50%, 18px);
+}
+
+html.hero-ready .hero-title {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0ms;
+}
+
+html.hero-ready .hero-subtitle {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 120ms;
+}
+
+html.hero-ready .hero-meta {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 120ms;
+}
+
+html.hero-ready .hero-scroll {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition-delay: 320ms;
+}
+
+/* 降级 1：模板/配置关闭动画 */
+html[data-animation="false"] .hero-title,
+html[data-animation="false"] .hero-subtitle,
+html[data-animation="false"] .hero-meta,
+html[data-animation="false"] .hero-scroll {
+  opacity: 1;
+  transform: translateY(0);
+  transition: none;
+}
+
+html[data-animation="false"] .hero-scroll {
+  transform: translate(-50%, 0);
+}
+
+html[data-animation="false"] .hero-scroll-icon {
+  animation: none;
+}
+
+/* 降级 2：系统偏好减少动态效果 */
+@media (prefers-reduced-motion: reduce) {
+  .hero-title,
+  .hero-subtitle,
+  .hero-meta,
+  .hero-scroll {
+    opacity: 1;
+    transform: translateY(0);
+    transition: none;
+  }
+
+  .hero-scroll {
+    transform: translate(-50%, 0);
+  }
+
+  .hero-scroll-icon {
+    animation: none;
+  }
+
+  /* 光斑保留静态分布，但不再呼吸 */
+  .hero-particle {
+    animation: none;
+  }
+}

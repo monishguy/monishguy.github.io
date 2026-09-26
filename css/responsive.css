@@ -1,0 +1,450 @@
+/* ==========================================================================
+   monish · 10/10 · responsive.css
+   全部断点媒体查询（1200 / 992 / 768 / 480）+ 打印 + 减少动态效果
+   关键约束：≤768px 不得出现横向滚动，导航改为抽屉式（.nav-drawer.is-open）
+   ========================================================================== */
+
+/* ============================================================ ≤1200px ==== */
+@media (max-width: 1200px) {
+  .post-list {
+    gap: var(--space-5);
+  }
+
+  .layout-2col {
+    gap: var(--space-5);
+  }
+
+  .sidebar-col {
+    flex-basis: 300px;
+    width: 300px;
+  }
+
+  .hero-inner {
+    max-width: 660px;
+  }
+}
+
+/* ============================================================= ≤992px ==== */
+@media (max-width: 992px) {
+  /* 平板：最多 2 列（用户把 posts.columns 配成 1 时保持单列） */
+  .post-list {
+    grid-template-columns: repeat(min(2, var(--card-columns, 3)), minmax(0, 1fr));
+  }
+
+  /* 侧栏落到正文下方，自然形成单列 */
+  .layout-2col {
+    flex-direction: column;
+  }
+
+  .sidebar-col {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 6.4vw, 3.2rem);
+  }
+
+  .page-hero {
+    padding-block: var(--space-6) var(--space-5);
+  }
+}
+
+/* ============================================================= ≤768px ==== */
+@media (max-width: 768px) {
+  /* 横向滚动的最后一道保险（结构性修复见下方各条） */
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  /* 导航 → 抽屉 */
+  .main-nav {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .theme-toggle-label {
+    display: none;
+  }
+
+  .header-inner {
+    gap: var(--space-2);
+  }
+
+  .brand-text {
+    max-width: 46vw;
+  }
+
+  .header-actions {
+    margin-inline-start: auto;
+  }
+
+  .container {
+    padding-inline: var(--space-4);
+  }
+
+  /* 首屏 */
+  .hero {
+    padding: calc(var(--nav-height) + var(--space-6)) var(--space-4) var(--space-7);
+  }
+
+  .hero-title {
+    font-size: clamp(1.75rem, 7.6vw, 2.6rem);
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-scroll {
+    bottom: var(--space-5);
+  }
+
+  /* 首屏高度：配置的 --hero-height 仍生效，但窄屏用 svh 兜住地址栏，
+     不会出现「一屏」比可视区高；height:auto 让内容更高时自然撑开 */
+  .hero--full {
+    height: auto;
+    min-height: min(var(--hero-height, 100vh), 100svh);
+  }
+
+  /* center / banner：窄屏收紧内边距，短横幅也放得下内容 */
+  .hero--center {
+    padding-block: calc(var(--nav-height) + var(--space-5)) var(--space-6);
+  }
+
+  .hero--banner {
+    min-height: min(var(--hero-height, 50vh), 50vh);
+    padding-block: calc(var(--nav-height) + var(--space-4)) var(--space-5);
+  }
+
+  /* 列表 / 内页 */
+  .post-list,
+  .layout-2col .post-list {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  .site-main {
+    padding-block: var(--space-6) var(--space-7);
+  }
+
+  .post-title {
+    font-size: 1.5rem;
+  }
+
+  .post-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .post-nav-next {
+    text-align: start;
+  }
+
+  /* 表格自己横向滚动，不撑破页面 */
+  .monish-prose table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .monish-prose th,
+  .monish-prose td {
+    white-space: nowrap;
+  }
+
+  .monish-prose pre {
+    padding: var(--space-3) var(--space-4);
+    font-size: .8125rem;
+  }
+
+  /* 触屏没有 hover，复制按钮常显 */
+  .code-copy {
+    opacity: 1;
+  }
+
+  /* 抽屉宽度统一由 header.css 的 min(80vw, 300px) 提供
+     （375 → 300px、320 → 256px、右留 8px），此处不再重复声明，避免两处漂移 */
+
+  /* 窄屏下遮罩再深一点，浮层对比更清楚 */
+  .nav-backdrop {
+    background: color-mix(in srgb, var(--text-strong) 44%, transparent);
+  }
+
+  /* 索引 / 分类卡 / 时间线 */
+  .term-index-item {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .term-card {
+    padding: var(--space-4);
+  }
+
+  .archive-group-year {
+    font-size: 1.125rem;
+  }
+
+  .archive-groups {
+    gap: var(--space-6);
+  }
+
+  .back-to-top {
+    inset-inline-end: var(--space-4);
+    bottom: var(--space-4);
+    width: 40px;
+    height: 40px;
+  }
+
+  /* 灯箱：窄屏两侧按钮不压住图片主体——图片左右各留出
+     「按钮 44px + 内边距 + 间隙」≈ 62px 的走道 */
+  .lightbox-image {
+    max-width: calc(100vw - 124px);
+  }
+
+  .lightbox-prev {
+    inset-inline-start: var(--space-2);
+  }
+
+  .lightbox-next {
+    inset-inline-end: var(--space-2);
+  }
+
+  .lightbox-caption {
+    max-width: calc(100vw - var(--space-4) * 2);
+  }
+}
+
+/* ============================================================= ≤480px ==== */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: clamp(1.6rem, 8.6vw, 2rem);
+  }
+
+  .hero-meta {
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .hero-meta > * + * {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+
+  .section-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .post-card-body,
+  .widget,
+  .post-copyright {
+    padding: var(--space-4);
+  }
+
+  .post-toc {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .post-list {
+    gap: var(--space-4);
+  }
+
+  .page-number,
+  .pagination .extend {
+    min-width: 34px;
+    height: 34px;
+    padding: 0 var(--space-2);
+    font-size: .875rem;
+  }
+
+  .footer-info {
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .lightbox {
+    padding: var(--space-3);
+  }
+
+  .search-box {
+    top: 8vh;
+    width: calc(100vw - var(--space-4) * 2);
+  }
+
+  .search-results {
+    max-height: 50vh;
+  }
+
+  /* 索引 / 分类卡 / 空态 / 404 */
+  .term-index-item {
+    gap: var(--space-3);
+    padding: var(--space-3);
+  }
+
+  .term-card-title {
+    font-size: 1.0625rem;
+  }
+
+  .term-card-item {
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-2);
+  }
+
+  .empty-state {
+    padding: var(--space-7) var(--space-4);
+  }
+
+  .breadcrumb {
+    font-size: .8125rem;
+  }
+
+  .not-found-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .not-found-actions .btn {
+    width: 100%;
+  }
+
+  .toast {
+    bottom: var(--space-5);
+  }
+}
+
+/* ============================================================== 打印 ==== */
+@media print {
+  html,
+  body {
+    overflow: visible;
+  }
+
+  body,
+  body.is-page {
+    padding-top: 0;
+  }
+
+  /* 隐藏所有交互外壳 */
+  .site-header,
+  .nav-drawer,
+  .nav-backdrop,
+  .progress-bar,
+  .back-to-top,
+  .lightbox,
+  .search-box,
+  .search-mask,
+  .toast,
+  .hero-scroll,
+  .comments {
+    display: none;
+  }
+
+  .container,
+  .post {
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  .hero {
+    min-height: 0;
+    padding: var(--space-5) 0;
+  }
+
+  .hero-bg,
+  .hero-overlay {
+    display: none;
+  }
+
+  .post-list,
+  .layout-2col .post-list {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  .post-card {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+
+  .post-toc {
+    break-inside: avoid;
+  }
+
+  .monish-prose a {
+    text-decoration: underline;
+  }
+
+  .monish-prose pre,
+  .monish-prose .highlight,
+  .monish-prose blockquote,
+  .monish-prose table,
+  .monish-prose img {
+    break-inside: avoid;
+  }
+}
+
+/* ==================================================== 减少动态效果 ==== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  a,
+  .main-nav-link,
+  .drawer-link,
+  .icon-btn,
+  .post-card,
+  .post-card-cover img,
+  .post-nav-item,
+  .tag-chip,
+  /* 标签云真实 DOM（内置 tagcloud() 输出的裸锚点），替换原死选择器 .tagcloud-link */
+  .tagcloud-wrap > a,
+  .widget-tagcloud .widget-content > a,
+  .page-number,
+  .pagination .extend,
+  .nav-drawer,
+  .nav-backdrop,
+  .back-to-top,
+  .code-copy,
+  .search-input,
+  .toast,
+  .search-result-item,
+  .post-toc-toggle::after,
+  .skip-link,
+  .term-card,
+  .btn,
+  .lightbox-prev,
+  .lightbox-next,
+  [data-reveal] {
+    transition: none;
+  }
+
+  .post-card:hover,
+  .post-card:hover .post-card-cover img,
+  .term-card:hover,
+  .lightbox-close:hover {
+    transform: none;
+  }
+
+  /* 左右按钮的 hover 只保留垂直居中位移，不做缩放 */
+  .lightbox-prev:hover,
+  .lightbox-next:hover {
+    transform: translateY(-50%);
+  }
+
+  .search-box:not([hidden]),
+  .toast,
+  .toast.is-visible {
+    animation: none;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

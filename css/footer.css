@@ -1,0 +1,129 @@
+/* ==========================================================================
+   monish · 8/10 · footer.css
+   页脚 + 返回顶部
+   ========================================================================== */
+
+.site-footer {
+  padding-block: var(--space-7) var(--space-6);
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: .9375rem;
+}
+
+.footer-inner {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: center;
+  text-align: center;
+}
+
+.footer-brand {
+  color: var(--text-strong);
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.footer-brand a {
+  color: var(--text-strong);
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2) var(--space-5);
+  font-family: var(--font-sans);
+  font-size: .875rem;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+}
+
+.footer-links a:hover {
+  color: var(--accent-strong);
+  text-decoration: none;
+}
+
+.footer-info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1) var(--space-4);
+  font-family: var(--font-sans);
+  font-size: .8125rem;
+}
+
+.footer-copyright,
+.footer-powered,
+.footer-icp {
+  color: var(--text-muted);
+}
+
+/* 页脚主题名（纯文本 span） */
+.footer-theme-name {
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: .8125rem;
+}
+
+.footer-info a {
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.footer-info a:hover {
+  color: var(--accent-strong);
+  border-bottom-color: var(--accent);
+  text-decoration: none;
+}
+
+/* -------------------------------------------------------------- 返回顶部 */
+.back-to-top {
+  position: fixed;
+  inset-inline-end: var(--space-5);
+  bottom: var(--space-5);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  color: var(--text);
+  box-shadow: var(--shadow-md);
+  font-size: .875rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity var(--speed) var(--ease), transform var(--speed) var(--ease),
+    visibility var(--speed) var(--ease), color var(--speed-fast) var(--ease),
+    border-color var(--speed-fast) var(--ease);
+}
+
+.back-to-top:hover {
+  color: var(--accent-strong);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+/* base.css 的 .is-hidden 是 display:none；返回顶部需要淡入淡出，故此处单独覆盖 */
+.back-to-top.is-hidden {
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+
+.back-to-top:not(.is-hidden) {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}

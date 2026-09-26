@@ -1,256 +1,414 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-theme-mode="auto" data-root="/"
+      data-page="archive"
+      data-animation="true"
+      data-lightbox="true"
+      data-copy-code="true"
+      data-search="true"
+      data-label-copy="复制"
+      data-label-copied="已复制"
+      data-label-search-placeholder="搜索文章…"
+      data-label-search-empty="没有找到相关内容">
+
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>归档 | 捣蒜小站</title>
+  
+    <meta name="description" content="技术、学习与日常">
   
   
-  <title>归档 | 捣蒜站</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="捣蒜站">
-<meta property="og:url" content="http://monishguy.github.io/archives/index.html">
-<meta property="og:site_name" content="捣蒜站">
+    <meta name="keywords" content="学习 日常 技术 vibecoding technology sharing personalblog blog">
+  
+  
+    <meta name="author" content="MonishGuy">
+  
+  <meta name="theme-color" content="#7FA88B" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#8FBF9F" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <meta name="generator" content="Hexo 8.1.2">
+  <meta name="description" content="技术、学习与日常">
+<meta property="og:type" content="website">
+<meta property="og:title" content="捣蒜小站">
+<meta property="og:url" content="http://www.monishguy.tech/archives/index.html">
+<meta property="og:site_name" content="捣蒜小站">
+<meta property="og:description" content="技术、学习与日常">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="MonishGuy">
+<meta property="article:tag" content="学习 日常 技术 vibecoding technology sharing personalblog blog">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="捣蒜站" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
   
   
   
-<link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/webpics/webpic.png">
+  
 
   
+  <script>
+    (function () {
+      var DEFAULT_MODE = 'auto';
+      var root = document.documentElement;
+      var mode = DEFAULT_MODE;
+      try {
+        var saved = window.localStorage.getItem('monish-theme');
+        if (saved === 'light' || saved === 'dark' || saved === 'auto') mode = saved;
+      } catch (e) { /* 隐私模式等场景忽略 */ }
+      var resolved = mode;
+      if (mode === 'auto') {
+        resolved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      root.setAttribute('data-theme-mode', mode);
+      root.setAttribute('data-theme', resolved);
+      root.style.colorScheme = resolved;
+    })();
+  </script>
+
+  
+  
+  <style>
+    :root { --user-accent:#7FA88B;--user-accent-dark:#8FBF9F;--user-radius:12px }
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+    html.theme-transition, html.theme-transition * { transition: background-color .32s ease, color .32s ease, border-color .32s ease !important; }
+    
+  </style>
+  
+
+  
+  <noscript>
+    <style>
+      .hero-title, .hero-subtitle, .hero-meta, .hero-scroll { opacity: 1 !important; transform: none !important; }
+      [data-reveal] { opacity: 1 !important; transform: none !important; }
+    </style>
+  </noscript>
 
   
   
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+    <link rel="stylesheet" href="/css/variables.css">
+  
+    <link rel="stylesheet" href="/css/base.css">
+  
+    <link rel="stylesheet" href="/css/header.css">
+  
+    <link rel="stylesheet" href="/css/hero.css">
+  
+    <link rel="stylesheet" href="/css/post-list.css">
+  
+    <link rel="stylesheet" href="/css/page.css">
+  
+    <link rel="stylesheet" href="/css/post.css">
+  
+    <link rel="stylesheet" href="/css/footer.css">
+  
+    <link rel="stylesheet" href="/css/extras.css">
+  
+    <link rel="stylesheet" href="/css/responsive.css">
+  
 
-<meta name="generator" content="Hexo 8.1.2"></head>
+  
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css"
+        media="print" onload="this.media='all';this.onload=null">
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">捣蒜站</a>
-      </h1>
+  
+
+  
+
+
+</head>
+
+<body class="monish theme-mode-auto is-page" data-page="archive">
+  <a class="skip-link" href="#site-main">跳到主要内容</a>
+
+  
+
+<div class="progress-bar" id="progress-bar" role="presentation" aria-hidden="true"></div>
+
+<header class="site-header" id="site-header" data-home-first="false">
+  <div class="container header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">捣</span>
+      <span class="brand-text">捣蒜小站</span>
+    </a>
+
+    <nav class="main-nav" id="main-nav" aria-label="菜单">
       
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://monishguy.github.io"></form>
-      </div>
+        <a class="main-nav-link" href="/">首页</a>
+      
+      
+        <a class="main-nav-link is-active" href="/archives/" aria-current="page">归档</a>
+      
+        <a class="main-nav-link" href="/categories/">分类</a>
+      
+        <a class="main-nav-link" href="/tags/">标签</a>
+      
+        <a class="main-nav-link" href="/about/">关于</a>
+      
+    </nav>
+
+    <div class="header-actions">
+      
+      
+        <button class="icon-btn search-toggle" id="search-toggle" type="button" aria-label="搜索" title="搜索" aria-controls="search-box">
+          <span class="fa fa-search" aria-hidden="true"></span>
+        </button>
+      
+      <button class="icon-btn theme-toggle" id="theme-toggle" type="button"
+              aria-label="切换主题" title="切换主题" data-mode="auto">
+        <span class="fa theme-toggle-icon" aria-hidden="true"></span>
+        <span class="theme-toggle-label" data-label-auto="跟随系统" data-label-light="浅色" data-label-dark="深色">跟随系统</span>
+      </button>
+      <button class="icon-btn nav-toggle" id="nav-toggle" type="button" aria-label="菜单"
+              aria-expanded="false" aria-controls="nav-drawer">
+        <span class="fa fa-bars" aria-hidden="true"></span>
+      </button>
     </div>
   </div>
 </header>
 
-      <div class="outer">
-        <section id="main">
-  
-  
+<div class="nav-backdrop" id="nav-backdrop" hidden></div>
+
+<div class="nav-drawer" id="nav-drawer" hidden>
+  <nav class="nav-drawer-inner" aria-label="菜单">
+    
+      <a class="drawer-link" href="/">首页</a>
     
     
+      <a class="drawer-link is-active" href="/archives/" aria-current="page">归档</a>
+    
+      <a class="drawer-link" href="/categories/">分类</a>
+    
+      <a class="drawer-link" href="/tags/">标签</a>
+    
+      <a class="drawer-link" href="/about/">关于</a>
+    
+    
+  </nav>
+</div>
+
+
+
+  <div id="page-top" class="page-top-anchor" aria-hidden="true"></div>
+
+  
+
+<div class="page-hero" id="page-hero">
+  <div class="container">
+    <h1 class="page-title">归档</h1>
+    
+    
+    
+  </div>
+</div>
+
+
+<main class="site-main" id="site-main">
+  <div class="container layout-2col">
+    <div class="content-col">
+      
+
+  <div class="archive-groups" data-reveal>
+    
+      <section class="archive-group">
+        <h2 class="archive-group-year">2026</h2>
+        <ul class="archive-group-list">
+          
+            <li class="archive-group-item">
+              <time class="archive-group-date" datetime="2026-09-25T07:33:17.000Z">09-25</time>
+              <a class="archive-group-link" href="/2026/09/25/%E5%86%8D%E6%AC%A1%E6%B5%8B%E8%AF%95/">再次测试</a>
+              
+            </li>
+          
+            <li class="archive-group-item">
+              <time class="archive-group-date" datetime="2026-09-25T07:31:33.000Z">09-25</time>
+              <a class="archive-group-link" href="/2026/09/25/%E8%92%9C%E6%B3%A5%E7%99%BD%E8%82%89/">蒜泥白肉</a>
+              
+            </li>
+          
+            <li class="archive-group-item">
+              <time class="archive-group-date" datetime="2026-09-25T07:22:05.000Z">09-25</time>
+              <a class="archive-group-link" href="/2026/09/25/%E6%B5%8B%E8%AF%95/">测试</a>
+              
+            </li>
+          
+            <li class="archive-group-item">
+              <time class="archive-group-date" datetime="2026-09-25T06:28:08.348Z">09-25</time>
+              <a class="archive-group-link" href="/2026/09/25/hello-world/">Hello World</a>
+              
+            </li>
+          
+        </ul>
+      </section>
+    
+  </div>
+  
+
+
+    </div>
+    
+<aside class="sidebar-col" id="sidebar" aria-label="侧栏">
+  
+    
+      
+<section class="widget widget-author">
+  <div class="widget-content">
+    <div class="author-card">
+      
+        <span class="author-avatar author-avatar--text" aria-hidden="true">M</span>
+      
+      <p class="author-name">MonishGuy</p>
+      
+        <p class="author-description">技术、学习与日常</p>
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2026" class="archive-year">2026</a>
+        <div class="author-links">
+          
         </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2026/09/25/%E5%86%8D%E6%AC%A1%E6%B5%8B%E8%AF%95/" class="archive-article-date">
-  <time class="dt-published" datetime="2026-09-25T07:33:17.000Z" itemprop="datePublished">9月 25</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2026/09/25/%E5%86%8D%E6%AC%A1%E6%B5%8B%E8%AF%95/">再次测试</a>
-    </h1>
-  
-
-    </header>
+    </div>
   </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2026/09/25/%E8%92%9C%E6%B3%A5%E7%99%BD%E8%82%89/" class="archive-article-date">
-  <time class="dt-published" datetime="2026-09-25T07:31:33.000Z" itemprop="datePublished">9月 25</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2026/09/25/%E8%92%9C%E6%B3%A5%E7%99%BD%E8%82%89/">蒜泥白肉</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2026/09/25/%E6%B5%8B%E8%AF%95/" class="archive-article-date">
-  <time class="dt-published" datetime="2026-09-25T07:22:05.000Z" itemprop="datePublished">9月 25</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2026/09/25/%E6%B5%8B%E8%AF%95/">测试</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2026/09/25/hello-world/" class="archive-article-date">
-  <time class="dt-published" datetime="2026-09-25T06:28:08.348Z" itemprop="datePublished">9月 25</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2026/09/25/hello-world/">Hello World</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-
 </section>
-        
-          <aside id="sidebar">
-  
-    
 
+    
   
     
+      
 
-  
+
     
   
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/09/">九月 2026</a></li></ul>
-    </div>
+      
+
+
+    
+  
+    
+      
+
+<section class="widget widget-recent_posts">
+  <h3 class="widget-title">最新文章</h3>
+  <div class="widget-content">
+    <ul class="recent-posts">
+      
+        <li class="recent-post-item">
+          <a class="recent-post-title" href="/2026/09/25/%E5%86%8D%E6%AC%A1%E6%B5%8B%E8%AF%95/">再次测试</a>
+          <time class="recent-post-date" datetime="2026-09-25T07:33:17.000Z">09-25</time>
+        </li>
+      
+        <li class="recent-post-item">
+          <a class="recent-post-title" href="/2026/09/25/%E8%92%9C%E6%B3%A5%E7%99%BD%E8%82%89/">蒜泥白肉</a>
+          <time class="recent-post-date" datetime="2026-09-25T07:31:33.000Z">09-25</time>
+        </li>
+      
+        <li class="recent-post-item">
+          <a class="recent-post-title" href="/2026/09/25/%E6%B5%8B%E8%AF%95/">测试</a>
+          <time class="recent-post-date" datetime="2026-09-25T07:22:05.000Z">09-25</time>
+        </li>
+      
+        <li class="recent-post-item">
+          <a class="recent-post-title" href="/2026/09/25/hello-world/">Hello World</a>
+          <time class="recent-post-date" datetime="2026-09-25T06:28:08.348Z">09-25</time>
+        </li>
+      
+    </ul>
   </div>
+</section>
 
 
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2026/09/25/%E5%86%8D%E6%AC%A1%E6%B5%8B%E8%AF%95/">再次测试</a>
-          </li>
-        
-          <li>
-            <a href="/2026/09/25/%E8%92%9C%E6%B3%A5%E7%99%BD%E8%82%89/">蒜泥白肉</a>
-          </li>
-        
-          <li>
-            <a href="/2026/09/25/%E6%B5%8B%E8%AF%95/">测试</a>
-          </li>
-        
-          <li>
-            <a href="/2026/09/25/hello-world/">Hello World</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
   
 </aside>
-        
-      </div>
-      <footer id="footer">
+
+  </div>
+</main>
+
+
   
-  <div class="outer">
-    <div id="footer-info" class="inner">
+<footer class="site-footer" id="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <p class="footer-title">捣蒜小站</p>
       
-      &copy; 2026 MonishGuy<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+        <p class="footer-subtitle">在互联网留下足迹</p>
+      
+    </div>
+
+    
+      <nav class="footer-links" aria-label="菜单">
+        
+          <a class="footer-link" href="/archives/">归档</a>
+        
+          <a class="footer-link" href="/tags/">标签</a>
+        
+      </nav>
+    
+
+    <div class="footer-info">
+      <span class="footer-copyright">
+        
+          &copy; 2026 MonishGuy
+        
+      </span>
+      
+        <span class="footer-powered">由 <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> 强力驱动</span>
+        <span class="footer-theme">主题 <span class="footer-theme-name">monish</span></span>
+      
+      
     </div>
   </div>
 </footer>
 
+  
+
+<div class="search-mask" id="search-mask" hidden></div>
+<div class="search-box" id="search-box" role="dialog" aria-modal="true" aria-label="搜索" hidden>
+  <div class="search-box-inner">
+    <div class="search-field">
+      <span class="fa fa-search search-field-icon" aria-hidden="true"></span>
+      <input class="search-input" id="search-input" type="search" autocomplete="off" spellcheck="false"
+             placeholder="搜索文章…" aria-label="搜索">
+      <button class="search-close icon-btn" id="search-close" type="button" aria-label="关闭">
+        <span class="fa fa-times" aria-hidden="true"></span>
+      </button>
     </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
+    <div class="search-results" id="search-results" aria-live="polite">
+      <p class="search-hint">搜索文章…</p>
+    </div>
   </div>
+</div>
+
+
+  
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="放大" hidden>
+  <button class="lightbox-close" id="lightbox-close" type="button" aria-label="关闭">
+    <span class="fa fa-times" aria-hidden="true"></span>
+  </button>
+  <button class="lightbox-prev" id="lightbox-prev" type="button" aria-label="上一篇">
+    <span class="fa fa-angle-left" aria-hidden="true"></span>
+  </button>
+  <img class="lightbox-image" id="lightbox-image" src="" alt="">
+  <button class="lightbox-next" id="lightbox-next" type="button" aria-label="下一篇">
+    <span class="fa fa-angle-right" aria-hidden="true"></span>
+  </button>
+  <p class="lightbox-caption" id="lightbox-caption"></p>
+</div>
+
+
+
+  <button class="back-to-top" id="back-to-top" type="button"
+          aria-label="返回顶部" title="返回顶部">
+    <span class="fa fa-angle-up" aria-hidden="true"></span>
+  </button>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="/js/monish.js"></script>
+  
+<!-- monish: after-footer -->
+
 </body>
 </html>
