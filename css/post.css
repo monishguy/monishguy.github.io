@@ -141,19 +141,39 @@
   margin: 0 0 var(--space-5);
 }
 
+/* 正文链接：下划线常驻（可读性），hover 时颜色加深 + 下划线「加粗浮起」。
+   用 text-decoration-* 过渡而不是重画一条 ::after，是因为正文里链接会换行，
+   多重背景/伪元素方案在断行处会断掉。 */
 .monish-prose a {
   color: var(--accent-strong);
   text-decoration: underline;
   text-decoration-color: color-mix(in srgb, var(--accent) 50%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: .22em;
-  transition: color var(--speed-fast) var(--ease),
-    text-decoration-color var(--speed-fast) var(--ease);
+  transition:
+    color var(--speed-fast) var(--ease-out-expo),
+    text-decoration-color var(--speed-fast) var(--ease-out-expo),
+    text-decoration-thickness var(--speed-fast) var(--ease-out-expo);
 }
 
 .monish-prose a:hover {
   color: var(--accent-strong);
   text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+}
+
+/* 正文里指向外站的链接：hover 时右上角的小箭头轻微外移（motion-web 的
+   「可发现性」原则 —— 交互元素要在被点之前就告诉人能点） */
+.monish-prose a[target="_blank"]::after {
+  content: "↗";
+  display: inline-block;
+  margin-inline-start: .12em;
+  font-size: .82em;
+  transition: transform var(--speed-fast) var(--ease-out-expo);
+}
+
+.monish-prose a[target="_blank"]:hover::after {
+  transform: translate(2px, -2px);
 }
 
 .monish-prose em,
@@ -278,9 +298,48 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-3);
+  /* 只负责裁圆角；横向滚动交给内部的 .code-scroll */
   overflow: hidden;
 }
 
+/* 横向滚动容器：套在 <table> 外面（由 scripts/helpers.js 构建期注入）。
+   为什么不直接让 pre 滚：table 是 width:100% 的 auto 布局，长行会把**表格本身**
+   撑得比容器宽，于是 .highlight 的 overflow:hidden 直接把它裁掉、一个滚动条都不出现。
+   套一层容器让表格自由变宽、由这层滚，同时行号槽还能 sticky 在最左。
+   工具条留在容器外，所以横滚时语言标签和复制按钮不会跟着跑掉。 */
+.code-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  /* html 上那条浅色 scrollbar-color 在这里太淡（--line 压 --surface-3 几乎看不见），
+     单独加深，让人一眼看出「这里能左右滑」。 */
+  scrollbar-color: var(--text-faint) transparent;
+}
+
+/* WebKit：给横向滚动条一个可见的胶囊滑块 */
+.code-scroll::-webkit-scrollbar {
+  height: 10px;
+}
+
+.code-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.code-scroll::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: var(--radius-pill);
+  background: var(--line);
+  background-clip: padding-box;
+}
+
+.code-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--text-faint);
+  background-clip: padding-box;
+}
+
+/* figure.highlight 里的 pre 不再自己滚（外层 .code-scroll 负责），
+   否则会出现两条横向滚动条。这里要压过上面的 .monish-prose pre。 */
+.monish-prose .highlight pre,
 .highlight pre {
   margin: 0;
   border: 0;
@@ -289,9 +348,7 @@
   font-family: var(--font-mono);
   font-size: .875rem;
   line-height: 1.7;
-  /* 长代码块自己横向滚动，不撑破页面 */
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: visible;
 }
 
 /* Hexo 高亮产物每行后跟一个 <br>，最后一个会造成尾部空行 —— 去掉
@@ -397,10 +454,15 @@
   padding: var(--space-3) var(--space-4);
 }
 
-/* 行号槽：贴紧、只留必要宽度，不再是一条宽白带 */
+/* 行号槽：贴紧、只留必要宽度，不再是一条宽白带。
+   横向滚动时它 sticky 在最左，代码从底下滑过（所以要给不透明底色）。 */
 .highlight td.gutter {
   width: 1%;
   white-space: nowrap;
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 2;
+  background: var(--surface-3);
 }
 
 .highlight td.gutter pre {
@@ -605,6 +667,26 @@ html[data-theme="dark"] .highlight {
 .highlight:hover .code-copy,
 .code-copy:focus-visible {
   opacity: 1;
+}
+
+/* 复制成功的确认反馈：用 linear() 手写的弹簧曲线做一次轻微过冲-落定。
+   这是「小元件拿弹簧手感」的用法 —— 不必为了一个按钮引动画库。 */
+.code-copy.is-copied {
+  animation: monish-confirm var(--speed) var(--ease-spring) both;
+}
+
+@keyframes monish-confirm {
+  0% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .code-copy:hover {

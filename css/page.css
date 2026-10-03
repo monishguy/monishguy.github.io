@@ -483,25 +483,8 @@
   background: var(--surface);
 }
 
-.error-home {
-  position: absolute;
-  top: clamp(24px, 4vw, 56px);
-  inset-inline-end: clamp(24px, 5vw, 72px);
-  max-width: 12ch;
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: clamp(.8rem, 1.4vw, 1.1rem);
-  font-weight: 500;
-  line-height: 1.25;
-  letter-spacing: .02em;
-  text-transform: uppercase;
-  text-align: end;
-}
-
-.error-home:hover {
-  color: var(--accent-strong);
-  text-decoration: none;
-}
+/* 右上角那个「返回首页」已按反馈删除：底部 .error-links 里已经有首页入口，
+   同一屏出现两处首页标示是冗余。 */
 
 .error-heading {
   margin: 0;

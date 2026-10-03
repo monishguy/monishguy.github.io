@@ -109,7 +109,7 @@ button.rail-author:hover .author-name {
   box-shadow: var(--shadow-card);
   opacity: 0;
   transform: translateY(-6px);
-  transition: opacity var(--speed) var(--ease), transform var(--speed) var(--ease);
+  transition: opacity var(--speed) var(--ease-out-expo), transform var(--speed) var(--ease-out-expo);
 }
 
 .author-popover[hidden] {
@@ -314,7 +314,9 @@ button.rail-author:hover .author-name {
 }
 
 /* 滑块：位置由 JS 写在自身上的 --progress（百分比）驱动，
-   0% → 顶，100% → 82%（留出滑块自身 18% 的高度） */
+   0% → 顶，100% → 82%（留出滑块自身 18% 的高度）。
+   滚动过程中 JS 加 .is-active：滑块微微加宽 + 加深，松手 400ms 后收回。
+   加宽用 scaleX（合成层）而不是改 width，避免每帧重排。 */
 .scroll-thumb {
   position: absolute;
   inset-inline: 0;
@@ -322,7 +324,16 @@ button.rail-author:hover .author-name {
   height: 18%;
   border-radius: inherit;
   background: var(--text-faint);
-  transition: top 140ms linear, background-color var(--speed-fast) var(--ease);
+  transform-origin: center;
+  transition:
+    top 140ms linear,
+    background-color var(--speed-fast) var(--ease),
+    transform var(--speed-fast) var(--ease-out-expo);
+}
+
+.scroll-thumb.is-active {
+  transform: scaleX(1.9);
+  background: var(--text-muted);
 }
 
 .scroll-track.is-hidden,
@@ -349,7 +360,7 @@ button.rail-author:hover .author-name {
   transform: translateY(calc(-100% - var(--space-6)));
   opacity: 0;
   pointer-events: none;
-  transition: transform var(--speed) var(--ease), opacity var(--speed) var(--ease);
+  transition: transform var(--speed) var(--ease-out-expo), opacity var(--speed) var(--ease-out-expo);
 }
 
 .skip-link:focus,
@@ -369,7 +380,7 @@ button.rail-author:hover .author-name {
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
   opacity: 0;
-  transition: opacity var(--speed) var(--ease);
+  transition: opacity var(--speed) var(--ease-out-expo);
 }
 
 .nav-backdrop[hidden] {
@@ -399,8 +410,8 @@ button.rail-author:hover .author-name {
   transform: translateX(calc(100% + var(--space-4)));
   opacity: 0;
   visibility: hidden;
-  transition: transform var(--speed) var(--ease), opacity var(--speed) var(--ease),
-    visibility var(--speed) var(--ease);
+  transition: transform var(--speed) var(--ease-out-expo), opacity var(--speed) var(--ease-out-expo),
+    visibility var(--speed) var(--ease-out-expo);
 }
 
 /* display:block 会覆盖 UA 的 [hidden]{display:none}，必须显式兜底 */
@@ -433,7 +444,7 @@ button.rail-author:hover .author-name {
   /* 逐项淡入；收起时不带延迟，避免"赖着不走" */
   opacity: 0;
   transform: translateX(10px);
-  transition: opacity var(--speed) var(--ease), transform var(--speed) var(--ease),
+  transition: opacity var(--speed) var(--ease-out-expo), transform var(--speed) var(--ease-out-expo),
     background-color var(--speed-fast) var(--ease), color var(--speed-fast) var(--ease);
   transition-delay: 0s;
 }

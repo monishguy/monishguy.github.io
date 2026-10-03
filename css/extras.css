@@ -142,7 +142,7 @@
 }
 
 .search-box:not([hidden]) {
-  animation: monish-pop var(--speed) var(--ease) both;
+  animation: monish-pop var(--speed) var(--ease-out-expo) both;
 }
 
 /* 搜索行：图标 + 输入框(flex:1) + 关闭按钮；边框由整行统一承担 */
@@ -345,7 +345,7 @@
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
-  animation: monish-pop var(--speed) var(--ease);
+  animation: monish-pop var(--speed) var(--ease-out-expo);
   transition-delay: 0s;
 }
 

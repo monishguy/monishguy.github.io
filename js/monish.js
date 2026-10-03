@@ -189,6 +189,7 @@
     var shell = $('#shell');
     var backToTop = $('#back-to-top');
     var ticking = false;
+    var thumbIdleTimer = null;
     var TRACK_INSET = 30;
 
     /**
@@ -222,6 +223,14 @@
         /* 竖向滑块的位移由 CSS 用 var(--progress) 算（0% 在顶、100% 到底）。
            约定：这里写的必须是**百分比字符串**，CSS 侧是 top: calc(var(--progress) * .82)。 */
         thumb.style.setProperty('--progress', (ratio * 100).toFixed(2) + '%');
+
+        /* 滚动中滑块加宽加深（.is-active），停手 400ms 后收回。
+           只切 class —— 加宽由 CSS 的 transform: scaleX 完成，不触发重排。 */
+        thumb.classList.add('is-active');
+        clearTimeout(thumbIdleTimer);
+        thumbIdleTimer = setTimeout(function () {
+          thumb.classList.remove('is-active');
+        }, 400);
       }
 
       if (track) track.classList.toggle('is-hidden', !placeTrack(ratio));
@@ -346,6 +355,9 @@
       return;
     }
 
+    /* 错峰步长读 CSS 令牌 --stagger（默认 70ms），别在 JS 里再写一个数 */
+    var stagger = parseFloat(getComputedStyle(root).getPropertyValue('--stagger')) || 70;
+
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -355,8 +367,17 @@
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
 
-    items.forEach(function (item, index) {
-      item.style.setProperty('--reveal-delay', Math.min(index % 6, 5) * 60 + 'ms');
+    /**
+     * 延迟按「同一父节点内的第几个」算，而不是全页下标 ——
+     * 否则首页第 30 张卡片会等 30×70ms 才出现。
+     * Chromium 支持 CSS 的 sibling-index() 时会直接走 CSS 那条，
+     * 这里写的是 Firefox / Safari 的兜底值。
+     */
+    items.forEach(function (item) {
+      var siblings = item.parentElement ? $$('[data-reveal]', item.parentElement) : [item];
+      var index = siblings.indexOf(item);
+      if (index < 0) index = 0;
+      item.style.setProperty('--reveal-delay', Math.min(index, 8) * stagger + 'ms');
       observer.observe(item);
     });
   }

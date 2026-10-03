@@ -201,10 +201,16 @@ button:focus:not(:focus-visible) {
 }
 
 /* ------------------------------------------------------------ 滚动入场 */
+/* 「纸张浮起」：位移只有 14px，落点用 ease-out-expo（快进慢出、软着陆），
+   时长 460ms。列表项之间按 --i 错峰 70ms —— 只动 opacity/transform。 */
 [data-reveal] {
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity var(--speed-slow) var(--ease), transform var(--speed-slow) var(--ease);
+  transform: translateY(14px);
+  transition:
+    opacity var(--speed-medium) var(--ease-out-expo),
+    transform var(--speed-medium) var(--ease-out-expo);
+  /* 兜底错峰：JS 会给同一组内的元素写 --reveal-delay（如 70ms / 140ms） */
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
 [data-reveal].is-revealed {
@@ -212,11 +218,51 @@ button:focus:not(:focus-visible) {
   transform: translateY(0);
 }
 
+/* 错峰：优先用原生 sibling-index()（无需模板写 --i，Chromium 已支持），
+   不支持时回落到模板/JS 写的 --reveal-delay。延迟只写在未揭示态，
+   所以已经出现过的那批不会再排队。 */
+@supports (animation-delay: calc(sibling-index() * 1ms)) {
+  [data-reveal] {
+    transition-delay: calc(sibling-index() * var(--stagger));
+  }
+}
+
+/* ------------------------------------------------------------------------
+   Rung 1.5：原生滚动驱动动画（CSS-only，跑在合成线程上，零 JS）
+   作为渐进增强 —— 只有支持 animation-timeline: view() 的浏览器才吃到；
+   Firefox 目前不支持，那里就退回上面的 IntersectionObserver 版本。
+   ------------------------------------------------------------------------ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* 正文里的块级内容随滚动淡入上升，滚出视口上方时淡出（不回到 0，
+       避免快速滚动时正文大面积空白）。 */
+    .monish-prose > :is(h2, h3, h4, figure, pre, blockquote, table) {
+      animation: monish-rise-in linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 26%;
+    }
+  }
+}
+
+@keyframes monish-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* 动画关闭时始终可见、无位移 */
-body[data-animation="false"] [data-reveal] {
+body[data-animation="false"] [data-reveal],
+body[data-animation="false"] .monish-prose > :is(h2, h3, h4, figure, pre, blockquote, table) {
   opacity: 1;
   transform: none;
   transition: none;
+  animation: none;
 }
 
 /* ------------------------------------------------------------------ 打印 */

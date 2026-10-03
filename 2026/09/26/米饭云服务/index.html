@@ -344,7 +344,7 @@
 <li><strong>上传现状</strong>：三个参考项目<strong>均未实现上传</strong>（只有下载&#x2F;删除）。上传接口需要后续自行抓包逆向（详见 API 文档的「上传可行性」一节）。</li>
 </ol>
 <hr>
-<h2 id="架构草案（规划）"><a href="#架构草案（规划）" class="headerlink" title="架构草案（规划）"></a>架构草案（规划）</h2><figure class="highlight plaintext"><div class="code-toolbar"><span class="code-language" aria-hidden="true">Plaintext</span></div><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span></pre></td><td class="code"><pre><span class="line">app/</span><br><span class="line">├── data/</span><br><span class="line">│   ├── auth/                # 小米凭证：WebView 登录 / Cookie 提取 / 加密存储 / 自动续期</span><br><span class="line">│   ├── remote/              # i.mi.com REST 客户端（OkHttp + CookieJar + ts 参数）</span><br><span class="line">│   │   ├── GalleryApi.kt    # 相册/资产/时间线/下载</span><br><span class="line">│   │   ├── RecordingApi.kt  # 录音列表/下载</span><br><span class="line">│   │   ├── NoteApi.kt       # 笔记列表/详情/图片</span><br><span class="line">│   │   ├── ContactApi.kt    # 通讯录</span><br><span class="line">│   │   └── SmsApi.kt        # 短信</span><br><span class="line">│   ├── local/               # 本地数据库（Room）：资产清单、去重指纹、同步游标</span><br><span class="line">│   └── sync/                # 增量同步引擎：拉取清单 → 比对 → 下载 → 校验（sha1）</span><br><span class="line">├── ui/                      # Compose 界面：登录页、数据源页、同步任务页、设置页</span><br><span class="line">└── worker/                  # WorkManager 定时同步</span></pre></td></tr></table></figure>
+<h2 id="架构草案（规划）"><a href="#架构草案（规划）" class="headerlink" title="架构草案（规划）"></a>架构草案（规划）</h2><figure class="highlight plaintext"><div class="code-toolbar"><span class="code-language" aria-hidden="true">Plaintext</span></div><div class="code-scroll"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span></pre></td><td class="code"><pre><span class="line">app/</span><br><span class="line">├── data/</span><br><span class="line">│   ├── auth/                # 小米凭证：WebView 登录 / Cookie 提取 / 加密存储 / 自动续期</span><br><span class="line">│   ├── remote/              # i.mi.com REST 客户端（OkHttp + CookieJar + ts 参数）</span><br><span class="line">│   │   ├── GalleryApi.kt    # 相册/资产/时间线/下载</span><br><span class="line">│   │   ├── RecordingApi.kt  # 录音列表/下载</span><br><span class="line">│   │   ├── NoteApi.kt       # 笔记列表/详情/图片</span><br><span class="line">│   │   ├── ContactApi.kt    # 通讯录</span><br><span class="line">│   │   └── SmsApi.kt        # 短信</span><br><span class="line">│   ├── local/               # 本地数据库（Room）：资产清单、去重指纹、同步游标</span><br><span class="line">│   └── sync/                # 增量同步引擎：拉取清单 → 比对 → 下载 → 校验（sha1）</span><br><span class="line">├── ui/                      # Compose 界面：登录页、数据源页、同步任务页、设置页</span><br><span class="line">└── worker/                  # WorkManager 定时同步</span></pre></td></tr></table></div></figure>
 
 <p>设计原则：</p>
 <ul>
@@ -365,7 +365,7 @@
 <li><input disabled="" type="checkbox"> <strong>M7 定时同步</strong>：WorkManager + 前台服务（Android 12+ 限制）</li>
 <li><input disabled="" type="checkbox"> <strong>M8 双向冲突处理 &#x2F; 删除同步</strong>（按需）</li>
 </ul>
-<h2 id="构建与测试"><a href="#构建与测试" class="headerlink" title="构建与测试"></a>构建与测试</h2><figure class="highlight bash"><div class="code-toolbar"><span class="code-language" aria-hidden="true">Bash</span></div><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span></pre></td><td class="code"><pre><span class="line">./gradlew :app:testDebugUnitTest   <span class="comment"># 单元测试（69 个，MockWebServer 模拟小米接口）</span></span><br><span class="line">./gradlew :app:assembleDebug       <span class="comment"># 编译 debug APK</span></span></pre></td></tr></table></figure>
+<h2 id="构建与测试"><a href="#构建与测试" class="headerlink" title="构建与测试"></a>构建与测试</h2><figure class="highlight bash"><div class="code-toolbar"><span class="code-language" aria-hidden="true">Bash</span></div><div class="code-scroll"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span></pre></td><td class="code"><pre><span class="line">./gradlew :app:testDebugUnitTest   <span class="comment"># 单元测试（69 个，MockWebServer 模拟小米接口）</span></span><br><span class="line">./gradlew :app:assembleDebug       <span class="comment"># 编译 debug APK</span></span></pre></td></tr></table></div></figure>
 
 <p>认证与全部数据模块逻辑均经本地 mock 验证（不依赖真实账号）；真机安装后由用户填入自己的 i.mi.com Cookie 做端到端验证（已通过：粘贴 Cookie → 主页 → 相册浏览&#x2F;下载）。</p>
 <hr>
@@ -416,11 +416,16 @@
     
       <nav class="post-nav" aria-label="上一篇 / 下一篇">
         
-          <a class="post-nav-item post-nav-prev" href="/2026/09/26/%E7%A6%81%E7%94%A8%E6%91%87%E4%B8%80%E6%91%87/" rel="prev">
+          <a class="post-nav-item post-nav-prev" href="/2026/09/26/%E6%B0%94%E6%B3%A1RH/" rel="prev">
             <span class="post-nav-label"><span class="fa fa-angle-left" aria-hidden="true"></span> 上一篇</span>
-            <span class="post-nav-title">禁用摇一摇</span>
+            <span class="post-nav-title">气泡RH</span>
           </a>
         
+        
+          <a class="post-nav-item post-nav-next" href="/2026/09/26/%E7%A6%81%E7%94%A8%E6%91%87%E4%B8%80%E6%91%87/" rel="next">
+            <span class="post-nav-label">下一篇 <span class="fa fa-angle-right" aria-hidden="true"></span></span>
+            <span class="post-nav-title">禁用摇一摇</span>
+          </a>
         
       </nav>
     

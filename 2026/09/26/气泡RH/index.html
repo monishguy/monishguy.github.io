@@ -252,7 +252,7 @@
 <p>前置条件：设备上必须已安装 RikkaHub，并完成模型与助手的配置。气泡RH 仅负责连接与展示，不提供任何独立功能。</p>
 </blockquote>
 <h3 id="第一步：在-RikkaHub-中设置回复格式"><a href="#第一步：在-RikkaHub-中设置回复格式" class="headerlink" title="第一步：在 RikkaHub 中设置回复格式"></a>第一步：在 RikkaHub 中设置回复格式</h3><p>在 RikkaHub 的系统提示词（System Prompt）中，要求 AI 以特定分隔符包裹每条回复内容，例如：</p>
-<figure class="highlight plaintext"><div class="code-toolbar"><span class="code-language" aria-hidden="true">Plaintext</span></div><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">请以如下格式回复每条消息：#内容*，每个 # ... * 作为一条独立消息。</span></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><div class="code-toolbar"><span class="code-language" aria-hidden="true">Plaintext</span></div><div class="code-scroll"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">请以如下格式回复每条消息：#内容*，每个 # ... * 作为一条独立消息。</span></pre></td></tr></table></div></figure>
 
 <p>您也可以设置类似格式但效果相同的提示词。</p>
 <p>默认分隔符为起始符 <code>#</code> 与结束符 <code>*</code>。你也可以在气泡RH 的「设置 → 消息拆分」中修改这两个分隔符，需与 RikkaHub 中的提示词保持一致。</p>
@@ -353,7 +353,7 @@
 </tr>
 </tbody></table>
 <hr>
-<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><figure class="highlight bash"><div class="code-toolbar"><span class="code-language" aria-hidden="true">Bash</span></div><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构建 Debug APK</span></span><br><span class="line">./gradlew assembleDebug</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行单元测试</span></span><br><span class="line">./gradlew <span class="built_in">test</span></span></pre></td></tr></table></figure>
+<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><figure class="highlight bash"><div class="code-toolbar"><span class="code-language" aria-hidden="true">Bash</span></div><div class="code-scroll"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构建 Debug APK</span></span><br><span class="line">./gradlew assembleDebug</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行单元测试</span></span><br><span class="line">./gradlew <span class="built_in">test</span></span></pre></td></tr></table></div></figure>
 
 <p>构建产物位于 <code>app/build/outputs/apk/debug/app-debug.apk</code>。开发环境要求 JDK 17、Android SDK 35+。</p>
 <hr>
@@ -422,9 +422,9 @@
           </a>
         
         
-          <a class="post-nav-item post-nav-next" href="/2026/09/26/%E7%A6%81%E7%94%A8%E6%91%87%E4%B8%80%E6%91%87/" rel="next">
+          <a class="post-nav-item post-nav-next" href="/2026/09/26/%E7%B1%B3%E9%A5%AD%E4%BA%91%E6%9C%8D%E5%8A%A1/" rel="next">
             <span class="post-nav-label">下一篇 <span class="fa fa-angle-right" aria-hidden="true"></span></span>
-            <span class="post-nav-title">禁用摇一摇</span>
+            <span class="post-nav-title">米饭云服务</span>
           </a>
         
       </nav>

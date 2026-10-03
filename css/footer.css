@@ -64,8 +64,8 @@
   opacity: 0;
   visibility: hidden;
   transform: translateY(8px);
-  transition: opacity var(--speed) var(--ease), transform var(--speed) var(--ease),
-    visibility var(--speed) var(--ease), color var(--speed-fast) var(--ease),
+  transition: opacity var(--speed) var(--ease-out-expo), transform var(--speed) var(--ease-out-expo),
+    visibility var(--speed) var(--ease-out-expo), color var(--speed-fast) var(--ease),
     background-color var(--speed-fast) var(--ease);
 }
 

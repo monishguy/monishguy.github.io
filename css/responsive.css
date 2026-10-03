@@ -111,12 +111,14 @@
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: var(--space-2) var(--space-4);
   }
 
+  /* 折叠态只保留右上角那一个「收起菜单」入口：横向铺开的导航整条隐藏
+     （它的链接都在抽屉里），避免同一屏出现两套菜单。 */
   .rail-nav {
-    flex: 1 1 auto;
+    display: none;
   }
 
   /* 折叠后只保留右上角那一个菜单入口（.rail-identity 里），
@@ -482,46 +484,45 @@
 }
 
 /* ==================================================== 减少动态效果 ==== */
+/* ---------------------------------------------------------------------
+   降级动效（prefers-reduced-motion: reduce）
+   策略按 motion-web 的 Reduced Motion Fallback Ladder：
+   一律收成「不位移、不缩放、瞬时完成」，但**不隐藏内容** ——
+   揭示类元素直接给到终态，避免有人看到一片空白。
+   用通配符兜底（新加的动效不需要再回来补名单），再单独纠正
+   那些「终态本身依赖 transform」的元素。
+   --------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  a,
-  .rail-link,
-  .util-btn,
-  .drawer-link,
-  .post-pill,
-  .post-pill-title,
-  .tag-chip,
-  .page-number,
-  .pagination .extend,
-  .term-index-item,
-  .term-index-count,
-  .term-card-more .fa,
-  .tagcloud-wrap > a,
-  .toc a,
-  .btn,
-  .back-to-top,
-  .code-copy,
-  .code-toolbar .code-copy,
-  .search-input,
-  .search-field,
-  .search-field-icon,
-  .search-result-item,
-  .toast,
-  .nav-drawer,
-  .nav-backdrop,
-  .scroll-thumb,
-  .skip-link,
-  [data-reveal] {
-    transition: none;
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
   }
 
+  /* 原生滚动驱动动画在降级模式下不参与（它不是 transition，上面的
+     animation-duration 覆盖不到 timeline 驱动的进度） */
+  @supports (animation-timeline: view()) {
+    .monish-prose > :is(h2, h3, h4, figure, pre, blockquote, table) {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* 悬停位移与缩放一律取消 */
   .post-pill:hover,
   .term-card-more:hover .fa,
   .lightbox-close:hover,
-  .tagcloud-wrap > a:hover {
+  .tagcloud-wrap > a:hover,
+  .scroll-thumb.is-active {
     transform: none;
   }
 
@@ -531,15 +532,17 @@
     transform: translateY(-50%);
   }
 
-  .search-box:not([hidden]),
-  .toast,
-  .toast.is-visible,
-  .hero-scroll-icon,
-  .hero-particle {
-    animation: none;
+  /* 终态依赖 transform/opacity 的元素直接给到终态 */
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
   }
 
-  [data-reveal] {
+  .nav-drawer,
+  .nav-drawer .drawer-link,
+  .search-box,
+  .author-popover,
+  .skip-link {
     opacity: 1;
     transform: none;
   }
