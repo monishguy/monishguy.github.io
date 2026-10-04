@@ -139,14 +139,15 @@
     <div class="rail-identity">
       
         
-          <div class="rail-author">
+          <button class="rail-author" id="author-toggle" type="button"
+                  aria-expanded="false" aria-controls="author-popover">
         
           
-            <span class="author-avatar" aria-hidden="true">M</span>
+            <img class="author-avatar author-avatar--img" src="/webpics/webpic.png" alt="Monishguy" loading="lazy" decoding="async">
           
-          <span class="author-name">MonishGuy</span>
+          <span class="author-name">Monishguy</span>
         
-          </div>
+          </button>
         
       
 
@@ -155,6 +156,36 @@
               aria-label="菜单" aria-expanded="false" aria-controls="nav-drawer">菜单</button>
 
       
+      
+        <div class="author-popover" id="author-popover" hidden>
+          <p class="author-popover-name">Monishguy</p>
+          
+            <p class="author-popover-desc">在互联网留下足迹</p>
+          
+          
+            <ul class="author-links">
+              
+                <li class="author-link-item">
+                  
+                    <a class="author-link" href="https://github.com/monishguy" target="_blank" rel="noopener">
+                      <span class="fa fa-github" aria-hidden="true"></span>
+                      <span class="author-link-label">github</span>
+                    </a>
+                  
+                </li>
+              
+                <li class="author-link-item">
+                  
+                    <a class="author-link" href="https://space.bilibili.com/68372140" target="_blank" rel="noopener">
+                      <span class="fa fa-television" aria-hidden="true"></span>
+                      <span class="author-link-label">bilibili</span>
+                    </a>
+                  
+                </li>
+              
+            </ul>
+          
+        </div>
       
     </div>
   </div>
@@ -416,16 +447,11 @@
     
       <nav class="post-nav" aria-label="上一篇 / 下一篇">
         
-          <a class="post-nav-item post-nav-prev" href="/2026/09/26/%E6%B0%94%E6%B3%A1RH/" rel="prev">
+          <a class="post-nav-item post-nav-prev" href="/2026/09/26/%E7%A6%81%E7%94%A8%E6%91%87%E4%B8%80%E6%91%87/" rel="prev">
             <span class="post-nav-label"><span class="fa fa-angle-left" aria-hidden="true"></span> 上一篇</span>
-            <span class="post-nav-title">气泡RH</span>
-          </a>
-        
-        
-          <a class="post-nav-item post-nav-next" href="/2026/09/26/%E7%A6%81%E7%94%A8%E6%91%87%E4%B8%80%E6%91%87/" rel="next">
-            <span class="post-nav-label">下一篇 <span class="fa fa-angle-right" aria-hidden="true"></span></span>
             <span class="post-nav-title">禁用摇一摇</span>
           </a>
+        
         
       </nav>
     
@@ -451,9 +477,6 @@
         &copy; 2026 MonishGuy
       
     </span>
-    
-      <span class="footer-powered">由 <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> 强力驱动</span>
-      <span class="footer-theme-name">monish</span>
     
     
   </div>

@@ -134,14 +134,15 @@
     <div class="rail-identity">
       
         
-          <div class="rail-author">
+          <button class="rail-author" id="author-toggle" type="button"
+                  aria-expanded="false" aria-controls="author-popover">
         
           
-            <span class="author-avatar" aria-hidden="true">M</span>
+            <img class="author-avatar author-avatar--img" src="/webpics/webpic.png" alt="Monishguy" loading="lazy" decoding="async">
           
-          <span class="author-name">MonishGuy</span>
+          <span class="author-name">Monishguy</span>
         
-          </div>
+          </button>
         
       
 
@@ -150,6 +151,36 @@
               aria-label="菜单" aria-expanded="false" aria-controls="nav-drawer">菜单</button>
 
       
+      
+        <div class="author-popover" id="author-popover" hidden>
+          <p class="author-popover-name">Monishguy</p>
+          
+            <p class="author-popover-desc">在互联网留下足迹</p>
+          
+          
+            <ul class="author-links">
+              
+                <li class="author-link-item">
+                  
+                    <a class="author-link" href="https://github.com/monishguy" target="_blank" rel="noopener">
+                      <span class="fa fa-github" aria-hidden="true"></span>
+                      <span class="author-link-label">github</span>
+                    </a>
+                  
+                </li>
+              
+                <li class="author-link-item">
+                  
+                    <a class="author-link" href="https://space.bilibili.com/68372140" target="_blank" rel="noopener">
+                      <span class="fa fa-television" aria-hidden="true"></span>
+                      <span class="author-link-label">bilibili</span>
+                    </a>
+                  
+                </li>
+              
+            </ul>
+          
+        </div>
       
     </div>
   </div>
@@ -198,7 +229,7 @@
       
         
 
-  <div class="tagcloud-wrap" data-reveal><a href="/tags/%E6%A0%87%E7%AD%BE/" style="font-size: 13px; color: #7fa88b" class="tagcloud-0">标签</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 13px; color: #7fa88b" class="tagcloud-0">测试</a> <a href="/tags/VibeCoding-RikkaHub-LLM/" style="font-size: 13px; color: #7fa88b" class="tagcloud-0">VibeCoding RikkaHub LLM</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 13px; color: #7fa88b" class="tagcloud-0">日常</a> <a href="/tags/%E5%90%90%E6%A7%BD/" style="font-size: 13px; color: #7fa88b" class="tagcloud-0">吐槽</a> <a href="/tags/VibeCoding/" style="font-size: 13px; color: #7fa88b" class="tagcloud-0">VibeCoding</a> <a href="/tags/VibeCoding-Lsposed/" style="font-size: 13px; color: #7fa88b" class="tagcloud-0">VibeCoding Lsposed</a></div>
+  <div class="tagcloud-wrap" data-reveal><a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 26px; color: #8fbf9f" class="tagcloud-6">日常</a> <a href="/tags/%E5%90%90%E6%A7%BD/" style="font-size: 26px; color: #8fbf9f" class="tagcloud-6">吐槽</a> <a href="/tags/%E6%A0%87%E7%AD%BE/" style="font-size: 13px; color: #7fa88b" class="tagcloud-0">标签</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 13px; color: #7fa88b" class="tagcloud-0">测试</a> <a href="/tags/VibeCoding-RikkaHub-LLM/" style="font-size: 13px; color: #7fa88b" class="tagcloud-0">VibeCoding RikkaHub LLM</a> <a href="/tags/VibeCoding-Lsposed/" style="font-size: 13px; color: #7fa88b" class="tagcloud-0">VibeCoding Lsposed</a> <a href="/tags/VibeCoding/" style="font-size: 13px; color: #7fa88b" class="tagcloud-0">VibeCoding</a></div>
 
 
   <div class="term-index" data-reveal>
@@ -220,12 +251,12 @@
     
       <a class="term-index-item" href="/tags/%E5%90%90%E6%A7%BD/">
         <span class="term-index-name">吐槽</span>
-        <span class="term-index-count">1</span>
+        <span class="term-index-count">2</span>
       </a>
     
       <a class="term-index-item" href="/tags/%E6%97%A5%E5%B8%B8/">
         <span class="term-index-name">日常</span>
-        <span class="term-index-count">1</span>
+        <span class="term-index-count">2</span>
       </a>
     
       <a class="term-index-item" href="/tags/%E6%A0%87%E7%AD%BE/">
@@ -261,9 +292,6 @@
         &copy; 2026 MonishGuy
       
     </span>
-    
-      <span class="footer-powered">由 <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> 强力驱动</span>
-      <span class="footer-theme-name">monish</span>
     
     
   </div>
