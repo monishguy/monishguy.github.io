@@ -1,0 +1,680 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme-mode="auto" data-root="/"
+      data-page="post"
+      data-display="card"
+      data-animation="true"
+      data-lightbox="true"
+      data-copy-code="true"
+      data-search="true"
+      data-label-copy="复制"
+      data-label-copied="已复制"
+      data-label-search-placeholder="搜索文章…"
+      data-label-search-empty="没有找到相关内容">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Hexo 配置易 v1.0 | 捣蒜小站</title>
+  
+    <meta name="description" content="Hexo 配置易（Easy Hexo）辅助配置 Hexo 的小工具 现已发布v1.0
+后续会有更多功能~等待有时间会完善
+
+面向 Windows 10 &amp;#x2F; 11 的 WinUI 3 桌面应用，用来可视化维护 Hexo 站点的 _config.yml，并以表单方式发布 &amp;#x2F; 重发 Markdown 文章、自动整理文章里的本机图片与附件。
+
+仓库地址：https:&amp;#x2F;&amp;#x2F;github.c">
+  
+  
+    <meta name="keywords" content="VibeCoding,ai,工具,开源">
+  
+  
+    <meta name="author" content="MonishGuy">
+  
+  <meta name="theme-color" content="#7FA88B" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#8FBF9F" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <meta name="generator" content="Hexo 8.1.2">
+  <meta name="description" content="Hexo 配置易（Easy Hexo）辅助配置 Hexo 的小工具 现已发布v1.0 后续会有更多功能~等待有时间会完善  面向 Windows 10 &#x2F; 11 的 WinUI 3 桌面应用，用来可视化维护 Hexo 站点的 _config.yml，并以表单方式发布 &#x2F; 重发 Markdown 文章、自动整理文章里的本机图片与附件。  仓库地址：https:&#x2F;&#x2F;github.c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo 配置易 v1.0">
+<meta property="og:url" content="https://www.monishguy.tech/2026/10/17/Hexo%20%E9%85%8D%E7%BD%AE%E6%98%93%20v1.0/index.html">
+<meta property="og:site_name" content="捣蒜小站">
+<meta property="og:description" content="Hexo 配置易（Easy Hexo）辅助配置 Hexo 的小工具 现已发布v1.0 后续会有更多功能~等待有时间会完善  面向 Windows 10 &#x2F; 11 的 WinUI 3 桌面应用，用来可视化维护 Hexo 站点的 _config.yml，并以表单方式发布 &#x2F; 重发 Markdown 文章、自动整理文章里的本机图片与附件。  仓库地址：https:&#x2F;&#x2F;github.c">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.monishguy.tech/docs/screenshots/config-editor.png">
+<meta property="og:image" content="https://www.monishguy.tech/docs/screenshots/publish.png">
+<meta property="og:image" content="https://www.monishguy.tech/docs/screenshots/settings.png">
+<meta property="article:published_time" content="2026-10-17T08:48:24.000Z">
+<meta property="article:modified_time" content="2026-10-17T08:49:24.259Z">
+<meta property="article:author" content="MonishGuy">
+<meta property="article:tag" content="VibeCoding">
+<meta property="article:tag" content="ai">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="开源">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.monishguy.tech/docs/screenshots/config-editor.png">
+  
+  
+  
+  
+    <link rel="shortcut icon" href="/webpics/webpic.png">
+  
+
+  
+  <script>
+    (function () {
+      var DEFAULT_MODE = 'auto';
+      var root = document.documentElement;
+      var mode = DEFAULT_MODE;
+      try {
+        var saved = window.localStorage.getItem('monish-theme');
+        if (saved === 'light' || saved === 'dark' || saved === 'auto') mode = saved;
+      } catch (e) { /* 隐私模式等场景忽略 */ }
+      var resolved = mode;
+      if (mode === 'auto') {
+        resolved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      root.setAttribute('data-theme-mode', mode);
+      root.setAttribute('data-theme', resolved);
+      root.style.colorScheme = resolved;
+    })();
+  </script>
+
+  
+  <style>
+    :root { --user-accent:#7FA88B;--user-accent-dark:#8FBF9F;--user-radius:44px }
+    
+    html.theme-transition, html.theme-transition * { transition: background-color .32s ease, color .32s ease, border-color .32s ease !important; }
+    
+  </style>
+
+  
+  <noscript>
+    <style>
+      .hero-title, .hero-subtitle, .hero-meta, .hero-scroll { opacity: 1 !important; transform: none !important; }
+      [data-reveal] { opacity: 1 !important; transform: none !important; }
+    </style>
+  </noscript>
+
+    
+    <link rel="stylesheet" href="/css/fonts.css">
+  
+
+  
+  
+    <link rel="stylesheet" href="/css/variables.css">
+  
+    <link rel="stylesheet" href="/css/base.css">
+  
+    <link rel="stylesheet" href="/css/shell.css">
+  
+    <link rel="stylesheet" href="/css/hero.css">
+  
+    <link rel="stylesheet" href="/css/post-list.css">
+  
+    <link rel="stylesheet" href="/css/page.css">
+  
+    <link rel="stylesheet" href="/css/post.css">
+  
+    <link rel="stylesheet" href="/css/footer.css">
+  
+    <link rel="stylesheet" href="/css/extras.css">
+  
+    <link rel="stylesheet" href="/css/responsive.css">
+  
+
+  
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css"
+        media="print" onload="this.media='all';this.onload=null">
+
+  
+
+
+</head>
+
+<body class="monish is-page">
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <div class="shell" id="shell">
+    
+<aside class="rail" id="rail">
+  <div class="rail-top">
+    <p class="rail-slogan" id="rail-slogan">捣蒜小站</p>
+
+    <div class="rail-identity">
+      
+        
+          <button class="rail-author" id="author-toggle" type="button"
+                  aria-expanded="false" aria-controls="author-popover">
+        
+          
+            <img class="author-avatar author-avatar--img" src="/webpics/webpic.png" alt="Monishguy" loading="lazy" decoding="async">
+          
+          <span class="author-name">Monishguy</span>
+        
+          </button>
+        
+      
+
+      
+      <button class="util-btn nav-toggle" id="nav-toggle" type="button"
+              aria-label="菜单" aria-expanded="false" aria-controls="nav-drawer">菜单</button>
+
+      
+      
+        <div class="author-popover" id="author-popover" hidden>
+          <p class="author-popover-name">Monishguy</p>
+          
+            <p class="author-popover-desc">在互联网留下足迹</p>
+          
+          
+            <ul class="author-links">
+              
+                <li class="author-link-item">
+                  
+                    <a class="author-link" href="https://github.com/monishguy" target="_blank" rel="noopener">
+                      <span class="fa fa-github" aria-hidden="true"></span>
+                      <span class="author-link-label">github</span>
+                    </a>
+                  
+                </li>
+              
+                <li class="author-link-item">
+                  
+                    <a class="author-link" href="https://space.bilibili.com/68372140" target="_blank" rel="noopener">
+                      <span class="fa fa-television" aria-hidden="true"></span>
+                      <span class="author-link-label">bilibili</span>
+                    </a>
+                  
+                </li>
+              
+            </ul>
+          
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="rail-bottom">
+    <nav class="rail-nav" id="rail-nav" aria-label="菜单">
+      
+        <a class="rail-link" href="/">首页</a>
+      
+      
+        <a class="rail-link" href="/archives/">归档</a>
+      
+        <a class="rail-link" href="/categories/">分类</a>
+      
+        <a class="rail-link" href="/tags/">标签</a>
+      
+        <a class="rail-link" href="/about/">关于</a>
+      
+    </nav>
+
+    <div class="rail-utils">
+      
+        <button class="util-btn search-toggle" id="search-toggle" type="button"
+                aria-label="搜索" aria-controls="search-box">搜索</button>
+      
+      
+      <button class="util-btn theme-toggle" id="theme-toggle" type="button"
+              data-mode="auto" aria-label="切换主题" title="切换主题"
+              data-label-auto="跟随系统" data-label-light="浅色" data-label-dark="深色">跟随系统</button>
+      
+    </div>
+  </div>
+</aside>
+
+
+    <div class="main" id="main">
+      
+<article class="card" id="content-card" itemscope itemtype="https://schema.org/BlogPosting">
+  <header class="card-head">
+    <time class="post-date" datetime="2026-10-17T08:48:24.000Z" itemprop="datePublished">OCT 17</time>
+    <h1 class="card-title" itemprop="name headline">Hexo 配置易 v1.0</h1>
+
+    
+      <div class="post-tags">
+        
+          <a class="tag-chip" href="/tags/VibeCoding/">#VibeCoding</a>
+        
+          <a class="tag-chip" href="/tags/ai/">#ai</a>
+        
+          <a class="tag-chip" href="/tags/%E5%B7%A5%E5%85%B7/">#工具</a>
+        
+          <a class="tag-chip" href="/tags/%E5%BC%80%E6%BA%90/">#开源</a>
+        
+      </div>
+    
+
+    <dl class="card-meta">
+      <div class="meta-item">
+        <dt>作者</dt>
+        <dd>MonishGuy</dd>
+      </div>
+      
+        <div class="meta-item">
+          <dt>阅读时长</dt>
+          <dd>11 分钟</dd>
+        </div>
+      
+      
+        <div class="meta-item">
+          <dt>字数</dt>
+          <dd>3277</dd>
+        </div>
+      
+      
+      
+        <div class="meta-item">
+          <dt>更新于</dt>
+          <dd><time datetime="2026-10-17T08:49:24.259Z" itemprop="dateModified">2026-10-17</time></dd>
+        </div>
+      
+    </dl>
+  </header>
+
+  
+    <div class="post-toc" id="post-toc">
+      <button class="post-toc-toggle" id="post-toc-toggle" type="button" aria-expanded="true" aria-controls="post-toc-nav">
+        <span class="fa fa-list-ul" aria-hidden="true"></span>
+        目录
+      </button>
+      <nav class="post-toc-nav" id="post-toc-nav" aria-label="目录">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hexo-%E9%85%8D%E7%BD%AE%E6%98%93%EF%BC%88Easy-Hexo%EF%BC%89"><span class="toc-text">Hexo 配置易（Easy Hexo）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%AF%AD%E8%A8%80%E9%80%89%E5%9E%8B%E7%AD%94%E7%96%91%EF%BC%88%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF-C-WinUI-3%EF%BC%89"><span class="toc-text">1. 语言选型答疑（为什么是 C# + WinUI 3）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6%E4%B8%8E%E7%8E%AF%E5%A2%83"><span class="toc-text">2. 前置条件与环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="toc-text">运行环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%EF%BC%88%E7%BC%96%E8%AF%91%E5%BF%85%E9%9C%80%EF%BC%89"><span class="toc-text">开发环境（编译必需）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%BC%96%E8%AF%91%E4%B8%8E%E8%BF%90%E8%A1%8C"><span class="toc-text">3. 编译与运行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Visual-Studio%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="toc-text">Visual Studio（推荐）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-text">命令行（可选）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E4%BB%93%E5%BA%93%E7%9A%84%E9%AA%8C%E8%AF%81%E6%83%85%E5%86%B5"><span class="toc-text">本仓库的验证情况</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-text">4. 目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%8A%9F%E8%83%BD%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%AF%B9%E7%85%A7"><span class="toc-text">5. 功能与实现对照</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-config-yml-%E5%86%99%E5%9B%9E%E8%A7%84%E5%88%99"><span class="toc-text">6. _config.yml 写回规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%8F%91%E5%B8%83%E8%A7%84%E5%88%99"><span class="toc-text">7. 发布规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E6%9C%AC%E6%9C%BA%E6%95%B0%E6%8D%AE%E4%BD%8D%E7%BD%AE"><span class="toc-text">8. 本机数据位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E5%B7%B2%E7%9F%A5%E9%99%90%E5%88%B6-%E5%8F%AF%E6%89%A9%E5%B1%95%E7%82%B9"><span class="toc-text">9. 已知限制 &#x2F; 可扩展点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-text">10. 常见问题</span></a></li></ol></li></ol>
+      </nav>
+    </div>
+  
+
+  <div class="card-body monish-prose" itemprop="articleBody">
+    <h1 id="Hexo-配置易（Easy-Hexo）"><a href="#Hexo-配置易（Easy-Hexo）" class="headerlink" title="Hexo 配置易（Easy Hexo）"></a>Hexo 配置易（Easy Hexo）</h1><p>辅助配置 Hexo 的小工具 现已发布v1.0</p>
+<p>后续会有更多功能~等待有时间会完善</p>
+<hr>
+<p>面向 <strong>Windows 10 &#x2F; 11</strong> 的 WinUI 3 桌面应用，用来可视化维护 Hexo 站点的 <code>_config.yml</code>，并以表单方式发布 &#x2F; 重发 Markdown 文章、自动整理文章里的本机图片与附件。</p>
+<blockquote>
+<p>仓库地址：<a target="_blank" rel="noopener" href="https://github.com/monishguy/easy-hexo-by-monish">https://github.com/monishguy/easy-hexo-by-monish</a><br>许可证：MIT（见仓库根目录 <a href="LICENSE">LICENSE</a>）　|　技术栈：<strong>C# + WinUI 3（Windows App SDK 1.7）+ .NET 8</strong></p>
+</blockquote>
+<p><img src="/docs/screenshots/config-editor.png" alt="配置编辑"></p>
+<table>
+<thead>
+<tr>
+<th>发布文章</th>
+<th>设置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/docs/screenshots/publish.png" alt="发布文章"></td>
+<td><img src="/docs/screenshots/settings.png" alt="设置"></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="1-语言选型答疑（为什么是-C-WinUI-3）"><a href="#1-语言选型答疑（为什么是-C-WinUI-3）" class="headerlink" title="1. 语言选型答疑（为什么是 C# + WinUI 3）"></a>1. 语言选型答疑（为什么是 C# + WinUI 3）</h2><p><strong>结论：C# + WinUI 3（Windows App SDK）+ .NET 8，用 Visual Studio 2022 编译。</strong></p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>是否满足需求</th>
+<th>评价</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>C# + WinUI 3（本项目）</strong></td>
+<td>✅</td>
+<td>WinUI 3 官方一等语言，项目模板、XAML 热重载、调试、NuGet 生态最完整；本项目的 YAML 解析、文件复制、正则改写等逻辑用 .NET 类库最省事；产物是原生 Win32 桌面进程（<code>WinExe</code>），只是运行时用 .NET。</td>
+</tr>
+<tr>
+<td>C++&#x2F;WinRT + WinUI 3</td>
+<td>✅</td>
+<td>同样能做，但 UI 与业务都要写 C++&#x2F;COM，开发与后期维护成本高；本项目没有性能敏感点，不划算。</td>
+</tr>
+<tr>
+<td>WPF &#x2F; WinForms</td>
+<td>❌ 外观不符</td>
+<td>只能做出 WinUI 2 之前的观感，不满足“UI 为 WinUI 3 标准”。</td>
+</tr>
+<tr>
+<td>WinUI 2（UWP）</td>
+<td>❌ 部署受限</td>
+<td>必须打包为 MSIX&#x2F;UWP，无法像普通 Win32 程序一样直接 <code>F5</code> 运行 exe。</td>
+</tr>
+<tr>
+<td>Electron &#x2F; Tauri 等</td>
+<td>❌ 非 WinUI</td>
+<td>不是 WinUI 3 界面，部署体积也大。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>注意：C# 只是“编译期语言”，最终产物 <code>EasyHexo.exe</code> 仍是普通 Win32 桌面程序，不依赖浏览器或 WebView，界面由 WinUI 3（<code>Microsoft.ui.xaml.dll</code>）渲染。</p>
+</blockquote>
+<h2 id="2-前置条件与环境"><a href="#2-前置条件与环境" class="headerlink" title="2. 前置条件与环境"></a>2. 前置条件与环境</h2><h3 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h3><ul>
+<li>Windows 10 1809（17763）及以上，或 Windows 11（推荐 Win11，可获得完整的 Fluent 风格与 Mica 相关能力）</li>
+<li>无需安装 Node.js &#x2F; Hexo —— 本工具只读写 Hexo 目录里的文件，不执行 <code>hexo</code> 命令</li>
+</ul>
+<h3 id="开发环境（编译必需）"><a href="#开发环境（编译必需）" class="headerlink" title="开发环境（编译必需）"></a>开发环境（编译必需）</h3><ol>
+<li><strong>Visual Studio 2022</strong>（17.8 及以上；Windows App SDK 1.7 建议 17.12+）</li>
+<li>VS Installer 中勾选工作负载：<ul>
+<li><strong>.NET 桌面开发</strong></li>
+<li><strong>Windows 应用开发</strong>（Windows application development，含 WinUI &#x2F; Windows App SDK 的 C# 模板与工具）</li>
+</ul>
+</li>
+<li>单个组件里确认有：<ul>
+<li><strong>.NET 8 SDK</strong>（或运行时）</li>
+<li><strong>Windows 10 SDK 10.0.19041.0 或更高</strong>（推荐 10.0.22621 &#x2F; 10.0.26100）</li>
+</ul>
+</li>
+<li>首次打开解决方案需要联网还原 NuGet 包：<ul>
+<li><code>Microsoft.WindowsAppSDK</code> <strong>1.7.260224002</strong></li>
+<li><code>Microsoft.Windows.SDK.BuildTools</code> <strong>10.0.22621.756</strong></li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>项目已启用 <code>WindowsAppSDKSelfContained=true</code>，会把 Windows App SDK 运行时复制到输出目录，<strong>不需要</strong>再单独安装 “Windows App Runtime”。<br>如果发布后在没装 .NET 的机器上运行，再加 <code>&lt;SelfContained&gt;true&lt;/SelfContained&gt;</code> 或让对方安装 .NET 8 Desktop Runtime。</p>
+</blockquote>
+<h2 id="3-编译与运行"><a href="#3-编译与运行" class="headerlink" title="3. 编译与运行"></a>3. 编译与运行</h2><h3 id="Visual-Studio（推荐）"><a href="#Visual-Studio（推荐）" class="headerlink" title="Visual Studio（推荐）"></a>Visual Studio（推荐）</h3><ol>
+<li>打开 <code>EasyHexo.sln</code></li>
+<li>右上角平台选 <strong>x64</strong>（或 x86 &#x2F; ARM64），配置选 <strong>Debug</strong></li>
+<li>直接 <code>F5</code> 运行；<code>Ctrl+Shift+B</code> 编译</li>
+<li>首次启动会提示选择 <strong>Hexo 根目录</strong>（目录下必须有 <code>_config.yml</code> 和 <code>source</code> 文件夹）</li>
+</ol>
+<h3 id="命令行（可选）"><a href="#命令行（可选）" class="headerlink" title="命令行（可选）"></a>命令行（可选）</h3><p>WinUI 3 的 PRI &#x2F; 打包任务由 <strong>Visual Studio 的 MSBuild</strong> 提供，因此请使用 <em>Developer PowerShell for VS 2022</em> 里的 <code>msbuild</code>，而不是 .NET SDK 自带的 <code>dotnet build</code>（后者会报 <code>MSB4062: Microsoft.Build.AppxPackage.dll 找不到</code>，这是 WinUI 3 的已知限制）：</p>
+<figure class="highlight powershell"><div class="code-toolbar"><span class="code-language" aria-hidden="true">PowerShell</span></div><div class="code-scroll"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span></pre></td><td class="code"><pre><span class="line">msbuild EasyHexo.sln /p:Platform=x64 /p:Configuration=Debug</span><br><span class="line">msbuild EasyHexo.sln /p:Platform=x64 /p:Configuration=Release</span></pre></td></tr></table></div></figure>
+
+<p>发布（输出可直接拷走的 exe）：</p>
+<figure class="highlight powershell"><div class="code-toolbar"><span class="code-language" aria-hidden="true">PowerShell</span></div><div class="code-scroll"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span></pre></td><td class="code"><pre><span class="line">msbuild EasyHexo\EasyHexo.csproj /p:Configuration=Release /p:Platform=x64 `</span><br><span class="line">        /p:WindowsPackageType=None /p:RuntimeIdentifier=win<span class="literal">-x64</span></span><br><span class="line"><span class="comment"># 产物：EasyHexo\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64\EasyHexo.exe</span></span></pre></td></tr></table></div></figure>
+
+<p><strong>没有安装 Visual Studio 时</strong>，可以用仓库自带脚本构建可直接运行的 zip（内部会手工合并 <code>resources.pri</code>）：</p>
+<figure class="highlight powershell"><div class="code-toolbar"><span class="code-language" aria-hidden="true">PowerShell</span></div><div class="code-scroll"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span></pre></td><td class="code"><pre><span class="line">pwsh tools\<span class="built_in">build-unpackaged</span>.ps1                        <span class="comment"># Debug / x64 → releases\EasyHexo-&lt;版本&gt;-debug-win-x64.zip</span></span><br><span class="line">pwsh tools\<span class="built_in">build-unpackaged</span>.ps1 <span class="literal">-Configuration</span> Release  <span class="comment"># Release / x64</span></span><br><span class="line">pwsh tools\<span class="built_in">build-unpackaged</span>.ps1 <span class="literal">-FrameworkDependent</span>     <span class="comment"># 不打包 .NET 运行时（体积更小）</span></span></pre></td></tr></table></div></figure>
+
+<p>默认把 <strong>.NET 8 运行时 + Windows App SDK 运行时</strong> 一起打进包里，解压即可运行；<code>releases\</code> 已在 <code>.gitignore</code> 中，不会进入版本库。</p>
+<h3 id="本仓库的验证情况"><a href="#本仓库的验证情况" class="headerlink" title="本仓库的验证情况"></a>本仓库的验证情况</h3><p>编写过程中在没有安装 Visual Studio 的环境里做了两轮验证：</p>
+<ol>
+<li><strong>编译验证</strong>：用 .NET SDK 编译，XAML（<code>.xbf</code>）与 C# 全部通过，0 error（仅最后打包步骤因缺少 VS 的 Appx 任务而中止，与代码无关）。</li>
+<li><strong>运行验证</strong>：手工合并 <code>resources.pri</code> 后真实启动并通过 UI Automation 跑通端到端流程：<ul>
+<li>配置编辑 → 修改 <code>title</code> → 应用到配置：<strong>只有该行变化</strong>，生成 <code>_config.yml.easyhexo.bak</code>；</li>
+<li>修改带行尾注释的项：<code>trailing_index: false # 注释</code> 注释保留；</li>
+<li>修改含 <code>:</code> 和 <code>#</code> 的值：自动写为 <code>&#39;含冒号: 与井号 # 的值&#39;</code>；</li>
+<li>清空带引号的值：写回 <code>timezone: &#39;&#39;</code>（引号风格保留）；</li>
+<li>发布已发布文章：本地图片复制到 <code>source\你好 Hexo\photo.png</code>，链接改写为 <code>/你好%20Hexo/photo.png</code>，<code>date</code>&#x2F;<code>tags</code>&#x2F;<code>categories</code> 保留；</li>
+<li>发布没有 front-matter 的 <code>.md</code>：自动在文件开头补 front matter，日期取文件修改时间，附件复制到 <code>source\no-front-matter\doc.zip</code>，网页链接原样跳过；</li>
+<li>中英文切换立即生效，窗口尺寸 &#x2F; 自绘标题栏正常；</li>
+<li>简体中文键名翻译：配置列表显示「站点标题 &#x2F; 去掉链接中的 index.html」等中文名，灰色小字显示原英文键名；应用到配置后文件里仍是 <code>title: …</code>、<code>pretty_urls:</code>、<code>trailing_index:</code> 等英文键。</li>
+</ul>
+</li>
+</ol>
+<p>未在本机执行：VS 一键 <code>F5</code> 与 MSIX 打包（环境无 VS），但工程结构、包版本、构建配置均为官方标准模板写法。</p>
+<h2 id="4-目录结构"><a href="#4-目录结构" class="headerlink" title="4. 目录结构"></a>4. 目录结构</h2><figure class="highlight plaintext"><div class="code-toolbar"><span class="code-language" aria-hidden="true">Plaintext</span></div><div class="code-scroll"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span></pre></td><td class="code"><pre><span class="line">EasyHexo.sln</span><br><span class="line">EasyHexo/</span><br><span class="line">  EasyHexo.csproj             # net8.0-windows10.0.19041.0 / WinUI 3 / unpackaged</span><br><span class="line">  app.manifest                # PerMonitorV2 DPI、长路径、Win10/11 兼容声明</span><br><span class="line">  App.xaml(.cs)               # 应用入口：读设置、套用语言、创建主窗口</span><br><span class="line">  MainWindow.xaml(.cs)        # NavigationView 三栏 + 自绘标题栏</span><br><span class="line">  Views/</span><br><span class="line">    ConfigEditorPage.xaml(.cs)   # 配置编辑</span><br><span class="line">    PublishPage.xaml(.cs)        # 发布文章</span><br><span class="line">    SettingsPage.xaml(.cs)       # 设置</span><br><span class="line">  Models/</span><br><span class="line">    ConfigEntry 相关          -&gt; Services/ConfigYamlService.cs</span><br><span class="line">    ConfigRow.cs               # 配置列表行的 ViewModel</span><br><span class="line">    ArticleInfo.cs             # 已发布文章</span><br><span class="line">    FrontMatter.cs             # front-matter 数据</span><br><span class="line">    TagItem.cs                 # 标签块</span><br><span class="line">  Services/</span><br><span class="line">    AppPaths.cs                # 设置/日志路径 + AppSettings + SettingsService + AppLog</span><br><span class="line">    AppState.cs                # 全局状态（根目录、语言、设置持久化）</span><br><span class="line">    HexoProject.cs             # 根目录校验、路径/文件名工具</span><br><span class="line">    ConfigYamlService.cs       # ★ _config.yml 行级解析 + 只改改动行的写回</span><br><span class="line">    FrontMatterService.cs      # ★ front-matter 识别 / 解析 / 生成</span><br><span class="line">    ArticleService.cs          # 扫描 source/_posts（按修改时间倒序）</span><br><span class="line">    AssetService.cs            # ★ 本机绝对路径图片/附件复制与链接改写</span><br><span class="line">    ArticlePublisher.cs        # ★ 发布流程：资源处理 → front-matter → 写 _posts</span><br><span class="line">    TempFileService.cs         # .txt → 临时目录 .md</span><br><span class="line">    TextFileService.cs         # 保留 BOM / 换行的文本读写</span><br><span class="line">  Localization/                # 运行时中英文（无需重启，立即切换）</span><br><span class="line">    Lang.cs / StringsZhCn.cs / StringsEnUs.cs / Trans.cs</span><br><span class="line">    ConfigKeyTranslator.cs     # 配置项英文键名 → 中文显示名（仅显示，不改文件）</span><br><span class="line">  Helpers/WindowHelper.cs      # HWND、文件夹/文件选择器、对话框、打开目录</span><br><span class="line">docs/screenshots/              # README 截图</span></pre></td></tr></table></div></figure>
+
+<h2 id="5-功能与实现对照"><a href="#5-功能与实现对照" class="headerlink" title="5. 功能与实现对照"></a>5. 功能与实现对照</h2><table>
+<thead>
+<tr>
+<th>需求</th>
+<th>实现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>选择 Hexo 根目录，校验 <code>_config.yml</code> + <code>source</code></td>
+<td><code>HexoProject.TryCreate</code> + 首启&#x2F;空状态&#x2F;设置页三处入口</td>
+</tr>
+<tr>
+<td>依据缩进把 <code>_config.yml</code> 转为多层可展开列表</td>
+<td><code>ConfigYamlService.Parse</code> → <code>ConfigRow</code> + <code>ListView</code>（展开&#x2F;收起重建可见行）</td>
+</tr>
+<tr>
+<td>简体中文下把固定配置项英文键名翻译成中文（仅界面显示）</td>
+<td><code>Localization/ConfigKeyTranslator.cs</code>：按“完整键路径”匹配，中文名为主标签、英文原名作为灰色提示；<strong>写回文件时始终用英文键名</strong></td>
+</tr>
+<tr>
+<td>可编辑项带输入框、自动填入原值</td>
+<td>DataTemplate 中 <code>TextBox</code>，<code>EditingValue</code> 保存在 <code>ConfigEntry</code></td>
+</tr>
+<tr>
+<td>注释转换为不可改的描述</td>
+<td>上方整行注释 + 行尾注释都进入 <code>ConfigEntry.Comment</code>，只读显示</td>
+</tr>
+<tr>
+<td>顶部“应用到配置”写回文件</td>
+<td><code>ConfigYamlService.Apply</code>：只重建被修改的行，写前备份</td>
+</tr>
+<tr>
+<td>定位 <code>source/_posts</code>，按修改日期新→旧</td>
+<td><code>ArticleService.LoadPosts</code>（<code>OrderByDescending(Modified)</code>）</td>
+</tr>
+<tr>
+<td>浏览 &#x2F; 拖入一个或多个 <code>.md</code> <code>.txt</code></td>
+<td><code>AllowDrop</code> + <code>FileOpenPicker</code>；多文件进入 <code>Queue</code> 逐篇发布</td>
+</tr>
+<tr>
+<td><code>.txt</code> 复制到临时目录并改后缀 <code>.md</code></td>
+<td><code>TempFileService.ImportAsMarkdownAsync</code></td>
+</tr>
+<tr>
+<td>识别开头 <code>---</code> … <code>---</code> 中的 title&#x2F;date&#x2F;tags</td>
+<td><code>FrontMatterService.Parse</code>（支持行内数组与块序列占位）</td>
+</tr>
+<tr>
+<td>标题&#x2F;日期必填、日期用日期选择器</td>
+<td><code>DatePicker</code> + <code>TimePicker</code>，写回固定 <code>yyyy-MM-dd HH:mm:ss</code></td>
+</tr>
+<tr>
+<td>标签输入后 Enter 锁定，可多个</td>
+<td><code>TagInput.KeyDown</code> → <code>ObservableCollection&lt;TagItem&gt;</code> 标签块</td>
+</tr>
+<tr>
+<td>无 front-matter 时先填值、发布时写入文件开头</td>
+<td><code>FrontMatterService.Compose</code> 生成后写回</td>
+</tr>
+<tr>
+<td>本地绝对路径图片&#x2F;附件复制到 <code>source\标题</code> 并改写链接</td>
+<td><code>AssetService.Process</code>（<code>http(s)</code>、相对路径跳过）</td>
+</tr>
+<tr>
+<td>已发布文章可重新编辑发布</td>
+<td>左侧列表选择 → 载入表单 → 写回原路径</td>
+</tr>
+<tr>
+<td>设置：语言 &#x2F; 关于 &#x2F; 根目录切换</td>
+<td><code>SettingsPage</code> + <code>AppState</code> + <code>%LOCALAPPDATA%\EasyHexo\settings.json</code></td>
+</tr>
+</tbody></table>
+<h2 id="6-config-yml-写回规则"><a href="#6-config-yml-写回规则" class="headerlink" title="6. _config.yml 写回规则"></a>6. <code>_config.yml</code> 写回规则</h2><blockquote>
+<p><strong>键名显示与写回是分离的</strong>：简体中文界面下，<code>title</code>、<code>pretty_urls.trailing_index</code> 等固定配置项会显示为「站点标题」「去掉链接中的 index.html」等中文名（英文原名以灰色小字 &#x2F; 鼠标悬停提示展示）；写回文件时仍然使用<strong>原始英文键名</strong>，不会把中文键写入 <code>_config.yml</code>。未收录的键（自定义项、主题私有项）直接显示英文原名。</p>
+</blockquote>
+<ul>
+<li><strong>逐行处理</strong>，不做完整 YAML 重新序列化，因此顺序、空行、注释、被注释掉的选项都原样保留；</li>
+<li>只重写被修改的那一行：<code>缩进 + key: </code> + 新值 + 原行尾注释；</li>
+<li>值格式：<ul>
+<li>原来是单&#x2F;双引号 → 保留原引号类型（单引号内的 <code>&#39;</code> 转义为 <code>&#39;&#39;</code>）；</li>
+<li><code>true</code> &#x2F; <code>false</code> &#x2F; 数字 → 不加引号；</li>
+<li>含 <code>:</code>、<code>#</code>、以特殊符号开头、首尾有空格等 → 自动加单引号；</li>
+<li>行内集合 <code>[a, b]</code> &#x2F; <code>{a: b}</code> 原样写回；</li>
+<li>清空带引号的值 → 写回 <code>&#39;&#39;</code>；</li>
+</ul>
+</li>
+<li>多行块标量（<code>key: |</code> &#x2F; <code>key: &gt;</code>）无法安全单行替换 → 标记为<strong>只读</strong>；</li>
+<li>写文件前自动备份为 <strong><code>_config.yml.easyhexo.bak</code></strong>（每次应用时覆盖上一次备份）；</li>
+<li>保留原文件的 UTF-8 BOM 状态与换行符（CRLF &#x2F; LF）。</li>
+</ul>
+<h2 id="7-发布规则"><a href="#7-发布规则" class="headerlink" title="7. 发布规则"></a>7. 发布规则</h2><ol>
+<li>文章内容来自所选 <code>.md</code> 文件；<code>.txt</code> 会先复制到临时目录再改名成 <code>.md</code>；</li>
+<li>正文里形如 <code>![alt](E:\images\a.png)</code>、<code>[text](D:\files\a.zip)</code> 的<strong>本机绝对路径</strong>：<ul>
+<li>复制到 <code>Hexo根目录\source\&lt;标题&gt;\</code>；</li>
+<li>链接改写为 <code>/&lt;标题&gt;/&lt;文件名&gt;</code>（空格等特殊字符做 URL 转义）；</li>
+<li><code>http(s)://</code>、<code>//</code>、相对路径、<code>/站点路径</code> 会被跳过；</li>
+<li>同名不同源文件自动加 <code>-2</code>、<code>-3</code> 后缀，避免互相覆盖；</li>
+</ul>
+</li>
+<li>生成 front-matter：<code>title</code> &#x2F; <code>date</code> &#x2F; <code>tags</code>，原文件里其它字段（如 <code>categories</code>、<code>updated</code>）原样保留；</li>
+<li>写入 <code>Hexo根目录\source\_posts\&lt;标题&gt;.md</code>（标题中的 Windows 非法字符替换为 <code>_</code>）；</li>
+<li>如果编辑的是<strong>已发布文章</strong>，写回原文件路径；如果编辑的是<strong>外部 <code>.md</code> 文件</strong>，还会把 front-matter 写回该文件开头（符合需求中“填入 md 文件开头首字处”）；</li>
+<li>目标已存在且不是同一文件时，会先弹窗确认覆盖；</li>
+<li>多个文件会排队，每发布成功一篇自动载入下一篇。</li>
+</ol>
+<h2 id="8-本机数据位置"><a href="#8-本机数据位置" class="headerlink" title="8. 本机数据位置"></a>8. 本机数据位置</h2><table>
+<thead>
+<tr>
+<th>内容</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>设置（根目录、语言）</td>
+<td><code>%LOCALAPPDATA%\EasyHexo\settings.json</code></td>
+</tr>
+<tr>
+<td>错误日志</td>
+<td><code>%LOCALAPPDATA%\EasyHexo\logs\easyhexo.log</code></td>
+</tr>
+<tr>
+<td>拖入 <code>.txt</code> 的临时 md</td>
+<td><code>%TEMP%\EasyHexo\&lt;时间戳&gt;\</code></td>
+</tr>
+<tr>
+<td><code>_config.yml</code> 备份</td>
+<td><code>&lt;Hexo 根目录&gt;\_config.yml.easyhexo.bak</code></td>
+</tr>
+</tbody></table>
+<h2 id="9-已知限制-可扩展点"><a href="#9-已知限制-可扩展点" class="headerlink" title="9. 已知限制 &#x2F; 可扩展点"></a>9. 已知限制 &#x2F; 可扩展点</h2><ul>
+<li><code>_config.yml</code> 是“按缩进的行级解析”，不是完整 YAML 1.2 实现：锚点&#x2F;别名、流式嵌套映射、复杂多行结构不支持（这些行会保持原样或只读）；键必须是 <code>key: value</code> 且冒号后带空格。</li>
+<li>目前只能<strong>修改</strong>已有配置项的值，不支持新增 &#x2F; 删除配置项（Hexo 的配置项基本固定，够用；如需要可在 <code>ConfigYamlService</code> 上扩展）。</li>
+<li>中文键名翻译表覆盖 Hexo 默认 <code>_config.yml</code> 的固定项；用户自定义键、主题私有键没有译名时显示英文原名（不影响使用）。</li>
+<li>文件中用作“分节标题”的注释（例如 <code># Site</code>）会显示为紧随其后的第一个配置项的描述——这是忠实于文件顺序的展示方式。</li>
+<li>front-matter 只映射 <code>title</code> &#x2F; <code>date</code> &#x2F; <code>tags</code>（<code>tags:</code> 的块序列写法也能识别），其它键原样保留；日期秒精度受界面时间选择器限制（没有单独秒输入时按 <code>00</code> 秒写入）。</li>
+<li>资源链接只处理 Markdown 的 <code>![alt](url)</code> &#x2F; <code>[text](url)</code>；HTML 的 <code>&lt;img src&gt;</code> 不处理；路径中带右括号 <code>)</code> 的链接不解析。</li>
+<li>主题配置（<code>_config.landscape.yml</code> 等）、文章正文富文本编辑、单实例限制未实现，均可按现有服务层继续扩展。</li>
+</ul>
+<h2 id="10-常见问题"><a href="#10-常见问题" class="headerlink" title="10. 常见问题"></a>10. 常见问题</h2><p><strong>Q：双击 <code>EasyHexo.exe</code> 报缺少 <code>Microsoft.WindowsAppRuntime.dll</code>？</strong><br>A：确认是用 VS&#x2F;MSBuild 生成的完整输出目录；本项目 <code>WindowsAppSDKSelfContained=true</code>，正常会把运行时复制到 exe 旁边。若自行改了配置，请安装 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads">Windows App Runtime 1.7</a> 或保持自包含。</p>
+<p><strong>Q：<code>dotnet build</code> 报 <code>MSB4062 ... Microsoft.Build.AppxPackage.dll</code>？</strong><br>A：这是 WinUI 3 的 PRI&#x2F;打包任务只随 Visual Studio 提供的已知限制，请用 VS 或 “Developer PowerShell for VS” 里的 <code>msbuild</code>（见第 3 节）。</p>
+<p><strong>Q：拖入文件没反应？</strong><br>A：本程序以普通权限运行；如果以管理员身份运行，Windows 会禁止从资源管理器拖放（系统限制），请用“浏览…”按钮。</p>
+
+  </div>
+
+  <footer class="card-foot">
+    
+      <div class="post-copyright">
+        <p class="post-copyright-line">
+          <span class="post-copyright-label">版权</span>
+          <span class="post-copyright-value"><a href="https://www.monishguy.tech/2026/10/17/Hexo%20%E9%85%8D%E7%BD%AE%E6%98%93%20v1.0/">https://www.monishguy.tech/2026/10/17/Hexo%20%E9%85%8D%E7%BD%AE%E6%98%93%20v1.0/</a></span>
+        </p>
+        <p class="post-copyright-note">转载请注明作者与出处，遵循 CC BY-NC-SA 4.0 协议</p>
+      </div>
+    
+
+    
+      <nav class="post-nav" aria-label="上一篇 / 下一篇">
+        
+        
+          <a class="post-nav-item post-nav-next" href="/2026/10/17/%E5%91%A8%E6%97%A5%E8%AE%B010_17/" rel="next">
+            <span class="post-nav-label">下一篇 <span class="fa fa-angle-right" aria-hidden="true"></span></span>
+            <span class="post-nav-title">周日记10/17</span>
+          </a>
+        
+      </nav>
+    
+
+    
+
+
+  </footer>
+</article>
+
+    </div>
+
+    <div class="scroll-track" id="scroll-track" aria-hidden="true">
+      <span class="scroll-thumb" id="progress-bar"></span>
+    </div>
+  </div>
+
+  
+<footer class="site-footer" id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-copyright">
+      
+        &copy; 2026 MonishGuy
+      
+    </span>
+    
+    
+  </div>
+</footer>
+
+  
+
+<div class="search-mask" id="search-mask" hidden></div>
+<div class="search-box" id="search-box" role="dialog" aria-modal="true" aria-label="搜索" hidden>
+  <div class="search-box-inner">
+    <div class="search-field">
+      <span class="fa fa-search search-field-icon" aria-hidden="true"></span>
+      <input class="search-input" id="search-input" type="search" autocomplete="off" spellcheck="false"
+             placeholder="搜索文章…" aria-label="搜索">
+      <button class="search-close icon-btn" id="search-close" type="button" aria-label="关闭">
+        <span class="fa fa-times" aria-hidden="true"></span>
+      </button>
+    </div>
+    <div class="search-results" id="search-results" aria-live="polite">
+      <p class="search-hint">搜索文章…</p>
+    </div>
+  </div>
+</div>
+
+
+  
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="放大" hidden>
+  <button class="lightbox-close" id="lightbox-close" type="button" aria-label="关闭">
+    <span class="fa fa-times" aria-hidden="true"></span>
+  </button>
+  <button class="lightbox-prev" id="lightbox-prev" type="button" aria-label="上一篇">
+    <span class="fa fa-angle-left" aria-hidden="true"></span>
+  </button>
+  <img class="lightbox-image" id="lightbox-image" src="" alt="">
+  <button class="lightbox-next" id="lightbox-next" type="button" aria-label="下一篇">
+    <span class="fa fa-angle-right" aria-hidden="true"></span>
+  </button>
+  <p class="lightbox-caption" id="lightbox-caption"></p>
+</div>
+
+
+
+  <button class="back-to-top" id="back-to-top" type="button"
+          aria-label="返回顶部" title="返回顶部">
+    <span class="fa fa-angle-up" aria-hidden="true"></span>
+  </button>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  
+<div class="nav-backdrop" id="nav-backdrop" hidden></div>
+
+<div class="nav-drawer" id="nav-drawer" hidden>
+  <nav class="nav-drawer-inner" aria-label="菜单">
+    
+      <a class="drawer-link" href="/">首页</a>
+    
+    
+      <a class="drawer-link" href="/archives/">归档</a>
+    
+      <a class="drawer-link" href="/categories/">分类</a>
+    
+      <a class="drawer-link" href="/tags/">标签</a>
+    
+      <a class="drawer-link" href="/about/">关于</a>
+    
+    
+
+    
+    <button class="drawer-link theme-toggle" id="theme-toggle-drawer" type="button"
+            data-mode="auto" aria-label="切换主题"
+            data-label-auto="跟随系统" data-label-light="浅色" data-label-dark="深色">跟随系统</button>
+  </nav>
+</div>
+
+
+  <script src="/js/monish.js"></script>
+  
+<!-- monish: after-footer -->
+
+</body>
+</html>
