@@ -110,6 +110,18 @@
         toggle.setAttribute('title', text);
         toggle.setAttribute('aria-label', text);
       });
+
+      /* 广播主题变化，让不归 theme 管的东西自己跟上（评论区 iframe 就是
+         通过它切换 giscus / utterances 的深浅色）。用 CustomEvent 而不是
+         让评论模块去改 theme.toggle，避免两边互相依赖。
+         bubbles: 让 window / document 上的监听也能收到，不强制只能挂 <html>。 */
+      try {
+        root.dispatchEvent(new CustomEvent('monish:themechange', {
+          bubbles: true,
+          detail: { mode: mode, theme: resolved }
+        }));
+      } catch (error) { /* 极老的浏览器没有 CustomEvent 构造器，忽略 */ }
+
       return resolved;
     },
 
@@ -391,10 +403,34 @@
 
     var toggle = $('#post-toc-toggle');
     var nav = $('#post-toc-nav');
-    on(toggle, 'click', function () {
-      var collapsed = toc.classList.toggle('is-collapsed');
+
+    /**
+     * 收起态用 class + inert 表达，**不用 hidden**：
+     * hidden 会把 display 变成 none，而 display 不可过渡 —— 那样展开/收起
+     * 就只能硬切。实际的高度动画在 CSS 里由 .post-toc-body 的
+     * grid-template-rows: 1fr ↔ 0fr 完成（能动画到内容真实高度）。
+     * inert 负责同一件事的另一个维度：收起时目录里的链接不能被 Tab 到。
+     */
+    function setCollapsed(collapsed) {
+      toc.classList.toggle('is-collapsed', collapsed);
       toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-      if (nav) nav.hidden = collapsed;
+      if (nav) {
+        if (collapsed) nav.setAttribute('inert', '');
+        else nav.removeAttribute('inert');
+      }
+    }
+
+    // 服务端已渲染成收起态，这里补上 inert（放在 JS 里而不是模板，
+    // 是为了「没有 JS 时目录依然可读可点」）
+    setCollapsed(toc.classList.contains('is-collapsed'));
+
+    on(toggle, 'click', function () {
+      setCollapsed(!toc.classList.contains('is-collapsed'));
+    });
+
+    // 点目录里的链接后自动收起（窄屏尤其需要，否则目录会一直占着屏幕）
+    on(nav, 'click', function (event) {
+      if (event.target.closest('a') && window.innerWidth <= 900) setCollapsed(true);
     });
 
     var links = $$('.post-toc-nav a', toc);
@@ -724,6 +760,130 @@
   }
 
   // -------------------------------------------------------------------------
+  // 评论区（giscus / utterances 等）
+  // -------------------------------------------------------------------------
+  /**
+   * 两件事，**必须解耦**（v2.1.2 之前耦合在一起，导致「页面一加载就是深色」
+   * 时评论区停在白色）：
+   * 1. 骨架 → 内容的过渡：iframe 真正 load 之后再摘掉骨架。
+   * 2. 让评论区跟着站点的深浅色（而不是跟系统）。
+   *
+   * 为什么不能只在 iframe 的 load 里发一次 postMessage：
+   * giscus 是「iframe load 之后」才在自己的文档里挂上 message 监听器的，
+   * 此刻我们从父页面发出的 setConfig 会被直接丢掉 —— 表现就是
+   * 页面浅色时手动切深色能变色（此时监听已就绪），而一上来就是深色则永远白。
+   * 所以：load 之后按 120/400/1000/2200ms 补发几次，并在评论区进入视口、
+   * 页面从 bfcache 恢复时再补发。setConfig 幂等，重复发没有副作用。
+   */
+  function initComments() {
+    var section = $('#comments');
+    if (!section) return;
+    var body = $('#comments-body');
+    var mount = $('#comments-mount');
+    if (!body || !mount) return;
+
+    var system = section.getAttribute('data-system') || '';
+    var followOS = section.getAttribute('data-follow-os') === 'true';
+
+    /* 各家的 postMessage 协议不一样：giscus 收 {giscus:{setConfig:{theme}}}，
+       utterances 收 {type:'set-theme'}，域名也必须是精确的白名单。 */
+    var PROTOCOL = {
+      giscus: { origin: 'https://giscus.app' },
+      utterances: { origin: 'https://utteranc.es' }
+    };
+
+    function themeName() {
+      var current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      return section.getAttribute('data-theme-' + current) ||
+        (system === 'utterances' ? (current === 'dark' ? 'github-dark' : 'github-light') : current);
+    }
+
+    /** frame 传 null 时现场重新查一次（iframe 可能是 lazy 之后才创建的） */
+    function applyTheme(frame) {
+      if (followOS) return;
+      if (!PROTOCOL[system]) return; /* valine / disqus 不归这里管 */
+      frame = frame || mount.querySelector('iframe');
+      if (!frame || !frame.contentWindow) return;
+      var name = themeName();
+      try {
+        if (system === 'giscus') {
+          frame.contentWindow.postMessage({ giscus: { setConfig: { theme: name } } }, PROTOCOL.giscus.origin);
+        } else if (system === 'utterances') {
+          frame.contentWindow.postMessage({ type: 'set-theme', theme: name }, PROTOCOL.utterances.origin);
+        }
+      } catch (error) { /* 跨域被拒就放弃，评论本身仍然可用 */ }
+    }
+
+    var retryTimers = [];
+    function applyThemeWithRetry(frame) {
+      applyTheme(frame);
+      retryTimers.forEach(clearTimeout);
+      retryTimers = [120, 400, 1000, 2200].map(function (delay) {
+        return setTimeout(function () { applyTheme(frame); }, delay);
+      });
+    }
+
+    /* 骨架只负责骨架，绝不在这里同步主题（否则提前 markLoaded 一次就把
+       后面的主题同步整条短路掉） */
+    var loaded = false;
+    function markLoaded() {
+      if (loaded) return;
+      loaded = true;
+      body.classList.add('is-loaded');
+    }
+
+    function bindFrame(frame) {
+      if (!frame || frame.dataset.monishBound === '1') return;
+      frame.dataset.monishBound = '1';
+      on(frame, 'load', function () {
+        markLoaded();
+        applyThemeWithRetry(frame);
+      });
+      // 某些情况下 iframe 在我们挂上监听前就已经 load 完了
+      try {
+        if (frame.contentDocument && frame.contentDocument.readyState === 'complete') {
+          markLoaded();
+          applyThemeWithRetry(frame);
+        }
+      } catch (error) { /* 跨域读不到 contentDocument，忽略 */ }
+    }
+
+    bindFrame(mount.querySelector('iframe'));
+
+    /* 脚本是 async 加载的，iframe 出现时间不确定 —— 用 MutationObserver
+       盯着挂载点，而不是轮询。 */
+    if ('MutationObserver' in window) {
+      var observer = new MutationObserver(function () {
+        var frame = mount.querySelector('iframe');
+        if (frame) bindFrame(frame);
+        // valine / disqus 之类不一定注入 iframe，有内容出现就当作能看了
+        else if (mount.children.length) setTimeout(markLoaded, 320);
+      });
+      observer.observe(mount, { childList: true, subtree: true });
+    }
+
+    /* 兜底：脚本被墙 / 加载失败时骨架不能永远转下去 */
+    setTimeout(markLoaded, 4000);
+
+    /* 评论区滚进视口时再补一次 —— giscus 带 data-loading="lazy"，
+       iframe 可能是用户快滚到时才创建的 */
+    if ('IntersectionObserver' in window) {
+      var seen = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          seen.disconnect();
+          applyThemeWithRetry(null);
+        });
+      }, { rootMargin: '220px 0px' });
+      seen.observe(section);
+    }
+
+    root.addEventListener('monish:themechange', function () { applyTheme(); });
+    // 从 bfcache 恢复时 iframe 状态会被保留，需要重新对齐
+    on(window, 'pageshow', function () { applyTheme(); });
+  }
+
+  // -------------------------------------------------------------------------
   // 启动
   // -------------------------------------------------------------------------
   // 入场标记：脚本位于 body 末尾，此时 HTML 已解析完，同步加 class 可让
@@ -743,6 +903,7 @@
     initCopyCode();
     initLightbox();
     initSearch();
+    initComments();
     root.classList.add('monish-ready');
   }
 

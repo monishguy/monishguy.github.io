@@ -71,6 +71,7 @@
   </script>
 
   
+  
   <style>
     :root { --user-accent:#7FA88B;--user-accent-dark:#8FBF9F;--user-radius:44px }
     
@@ -79,10 +80,26 @@
   </style>
 
   
+  
+    <style>
+      @view-transition { navigation: auto; }
+      /* 用户要求减少动效时连过渡本身都不做（省掉快照开销，而不是放一个 0ms 动画） */
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition { navigation: none; }
+      }
+    </style>
+  
+
+  
   <noscript>
     <style>
       .hero-title, .hero-subtitle, .hero-meta, .hero-scroll { opacity: 1 !important; transform: none !important; }
       [data-reveal] { opacity: 1 !important; transform: none !important; }
+      /* 目录「默认收起」是给有 JS 的用户的；没有 JS 就强制展开，别把目录锁死 */
+      .post-toc-body { grid-template-rows: 1fr !important; }
+      .post-toc-nav { opacity: 1 !important; transform: none !important; }
+      .post-toc-toggle { pointer-events: none; }
+      .post-toc-toggle::after { display: none; }
     </style>
   </noscript>
 
@@ -139,7 +156,7 @@
                   aria-expanded="false" aria-controls="author-popover">
         
           
-            <img class="author-avatar author-avatar--img" src="/webpics/webpic.png" alt="Monishguy" loading="lazy" decoding="async">
+            <span class="author-avatar" aria-hidden="true">M</span>
           
           <span class="author-name">Monishguy</span>
         
@@ -193,8 +210,6 @@
       
       
         <a class="rail-link" href="/archives/">归档</a>
-      
-        <a class="rail-link" href="/categories/">分类</a>
       
         <a class="rail-link" href="/tags/">标签</a>
       
@@ -277,15 +292,52 @@
           </a>
         
         
-          <a class="post-nav-item post-nav-next" href="/2026/09/26/%E6%B0%94%E6%B3%A1RH/" rel="next">
+          <a class="post-nav-item post-nav-next" href="/2026/09/26/%E7%A6%81%E7%94%A8%E6%91%87%E4%B8%80%E6%91%87/" rel="next">
             <span class="post-nav-label">下一篇 <span class="fa fa-angle-right" aria-hidden="true"></span></span>
-            <span class="post-nav-title">气泡RH</span>
+            <span class="post-nav-title">禁用摇一摇</span>
           </a>
         
       </nav>
     
 
     
+
+  <section class="comments" id="comments" aria-label="评论"
+           data-system="giscus" data-follow-os="false"
+           data-theme-light="light"
+           data-theme-dark="dark">
+    <h3 class="comments-title">评论</h3>
+
+    <div class="comments-body" id="comments-body" data-reveal>
+      
+      <div class="comments-skeleton" aria-hidden="true">
+        <span class="comments-skeleton-bar"></span>
+        <span class="comments-skeleton-bar"></span>
+        <span class="comments-skeleton-bar comments-skeleton-bar--short"></span>
+      </div>
+
+      <div class="comments-mount" id="comments-mount">
+        
+          <script src="https://giscus.app/client.js"
+                  data-repo="monishguy/blogcomments"
+                  data-repo-id="R_kgDOVWeObw"
+                  data-category="Announcements"
+                  data-category-id="DIC_kwDOVWeOb84DJjdb"
+                  data-mapping="pathname"
+                  data-strict="0"
+                  data-reactions-enabled="1"
+                  data-emit-metadata="0"
+                  data-input-position="top"
+                  data-theme="light"
+                  data-lang="zh-CN"
+                  data-loading="lazy"
+                  crossorigin="anonymous"
+                  async>
+          </script>
+        
+      </div>
+    </div>
+  </section>
 
 
   </footer>
@@ -366,8 +418,6 @@
     
     
       <a class="drawer-link" href="/archives/">归档</a>
-    
-      <a class="drawer-link" href="/categories/">分类</a>
     
       <a class="drawer-link" href="/tags/">标签</a>
     

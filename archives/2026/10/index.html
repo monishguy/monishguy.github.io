@@ -68,6 +68,7 @@
   </script>
 
   
+  
   <style>
     :root { --user-accent:#7FA88B;--user-accent-dark:#8FBF9F;--user-radius:44px }
     
@@ -76,10 +77,26 @@
   </style>
 
   
+  
+    <style>
+      @view-transition { navigation: auto; }
+      /* 用户要求减少动效时连过渡本身都不做（省掉快照开销，而不是放一个 0ms 动画） */
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition { navigation: none; }
+      }
+    </style>
+  
+
+  
   <noscript>
     <style>
       .hero-title, .hero-subtitle, .hero-meta, .hero-scroll { opacity: 1 !important; transform: none !important; }
       [data-reveal] { opacity: 1 !important; transform: none !important; }
+      /* 目录「默认收起」是给有 JS 的用户的；没有 JS 就强制展开，别把目录锁死 */
+      .post-toc-body { grid-template-rows: 1fr !important; }
+      .post-toc-nav { opacity: 1 !important; transform: none !important; }
+      .post-toc-toggle { pointer-events: none; }
+      .post-toc-toggle::after { display: none; }
     </style>
   </noscript>
 
@@ -136,7 +153,7 @@
                   aria-expanded="false" aria-controls="author-popover">
         
           
-            <img class="author-avatar author-avatar--img" src="/webpics/webpic.png" alt="Monishguy" loading="lazy" decoding="async">
+            <span class="author-avatar" aria-hidden="true">M</span>
           
           <span class="author-name">Monishguy</span>
         
@@ -190,8 +207,6 @@
       
       
         <a class="rail-link is-active" href="/archives/" aria-current="page">归档</a>
-      
-        <a class="rail-link" href="/categories/">分类</a>
       
         <a class="rail-link" href="/tags/">标签</a>
       
@@ -339,8 +354,6 @@
     
     
       <a class="drawer-link is-active" href="/archives/" aria-current="page">归档</a>
-    
-      <a class="drawer-link" href="/categories/">分类</a>
     
       <a class="drawer-link" href="/tags/">标签</a>
     

@@ -75,6 +75,7 @@
   </script>
 
   
+  
   <style>
     :root { --user-accent:#7FA88B;--user-accent-dark:#8FBF9F;--user-radius:44px }
     
@@ -83,10 +84,26 @@
   </style>
 
   
+  
+    <style>
+      @view-transition { navigation: auto; }
+      /* 用户要求减少动效时连过渡本身都不做（省掉快照开销，而不是放一个 0ms 动画） */
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition { navigation: none; }
+      }
+    </style>
+  
+
+  
   <noscript>
     <style>
       .hero-title, .hero-subtitle, .hero-meta, .hero-scroll { opacity: 1 !important; transform: none !important; }
       [data-reveal] { opacity: 1 !important; transform: none !important; }
+      /* 目录「默认收起」是给有 JS 的用户的；没有 JS 就强制展开，别把目录锁死 */
+      .post-toc-body { grid-template-rows: 1fr !important; }
+      .post-toc-nav { opacity: 1 !important; transform: none !important; }
+      .post-toc-toggle { pointer-events: none; }
+      .post-toc-toggle::after { display: none; }
     </style>
   </noscript>
 
@@ -143,7 +160,7 @@
                   aria-expanded="false" aria-controls="author-popover">
         
           
-            <img class="author-avatar author-avatar--img" src="/webpics/webpic.png" alt="Monishguy" loading="lazy" decoding="async">
+            <span class="author-avatar" aria-hidden="true">M</span>
           
           <span class="author-name">Monishguy</span>
         
@@ -197,8 +214,6 @@
       
       
         <a class="rail-link" href="/archives/">归档</a>
-      
-        <a class="rail-link" href="/categories/">分类</a>
       
         <a class="rail-link" href="/tags/">标签</a>
       
@@ -264,14 +279,18 @@
   </header>
 
   
-    <div class="post-toc" id="post-toc">
-      <button class="post-toc-toggle" id="post-toc-toggle" type="button" aria-expanded="true" aria-controls="post-toc-nav">
+    
+    <div class="post-toc is-collapsed" id="post-toc">
+      <button class="post-toc-toggle" id="post-toc-toggle" type="button" aria-expanded="false" aria-controls="post-toc-nav">
         <span class="fa fa-list-ul" aria-hidden="true"></span>
-        目录
+        <span class="post-toc-label">目录</span>
       </button>
-      <nav class="post-toc-nav" id="post-toc-nav" aria-label="目录">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B1%B3%E9%A5%AD%E4%BA%91%E6%9C%8D%E5%8A%A1%EF%BC%88MifansCloud%EF%BC%89"><span class="toc-text">米饭云服务（MifansCloud）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%8A%B6%E6%80%81"><span class="toc-text">当前项目状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%A1%B9%E7%9B%AE%EF%BC%88%E8%B0%83%E7%A0%94%E6%9D%A5%E6%BA%90%EF%BC%89"><span class="toc-text">参考项目（调研来源）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E8%B0%83%E7%A0%94%E7%BB%93%E8%AE%BA%EF%BC%88%E6%91%98%E8%A6%81%EF%BC%89"><span class="toc-text">核心调研结论（摘要）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84%E8%8D%89%E6%A1%88%EF%BC%88%E8%A7%84%E5%88%92%EF%BC%89"><span class="toc-text">架构草案（规划）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E8%B7%AF%E7%BA%BF%E5%9B%BE"><span class="toc-text">开发路线图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E4%B8%8E%E6%B5%8B%E8%AF%95"><span class="toc-text">构建与测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95"><span class="toc-text">文档索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%8D%E8%B4%A3%E5%A3%B0%E6%98%8E"><span class="toc-text">免责声明</span></a></li></ol></li></ol>
-      </nav>
+      
+      <div class="post-toc-body">
+        <nav class="post-toc-nav" id="post-toc-nav" aria-label="目录">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B1%B3%E9%A5%AD%E4%BA%91%E6%9C%8D%E5%8A%A1%EF%BC%88MifansCloud%EF%BC%89"><span class="toc-text">米饭云服务（MifansCloud）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%8A%B6%E6%80%81"><span class="toc-text">当前项目状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%A1%B9%E7%9B%AE%EF%BC%88%E8%B0%83%E7%A0%94%E6%9D%A5%E6%BA%90%EF%BC%89"><span class="toc-text">参考项目（调研来源）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E8%B0%83%E7%A0%94%E7%BB%93%E8%AE%BA%EF%BC%88%E6%91%98%E8%A6%81%EF%BC%89"><span class="toc-text">核心调研结论（摘要）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84%E8%8D%89%E6%A1%88%EF%BC%88%E8%A7%84%E5%88%92%EF%BC%89"><span class="toc-text">架构草案（规划）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E8%B7%AF%E7%BA%BF%E5%9B%BE"><span class="toc-text">开发路线图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E4%B8%8E%E6%B5%8B%E8%AF%95"><span class="toc-text">构建与测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95"><span class="toc-text">文档索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%8D%E8%B4%A3%E5%A3%B0%E6%98%8E"><span class="toc-text">免责声明</span></a></li></ol></li></ol>
+        </nav>
+      </div>
     </div>
   
 
@@ -453,10 +472,52 @@
           </a>
         
         
+          <a class="post-nav-item post-nav-next" href="/2026/09/26/%E6%B0%94%E6%B3%A1RH/" rel="next">
+            <span class="post-nav-label">下一篇 <span class="fa fa-angle-right" aria-hidden="true"></span></span>
+            <span class="post-nav-title">气泡RH</span>
+          </a>
+        
       </nav>
     
 
     
+
+  <section class="comments" id="comments" aria-label="评论"
+           data-system="giscus" data-follow-os="false"
+           data-theme-light="light"
+           data-theme-dark="dark">
+    <h3 class="comments-title">评论</h3>
+
+    <div class="comments-body" id="comments-body" data-reveal>
+      
+      <div class="comments-skeleton" aria-hidden="true">
+        <span class="comments-skeleton-bar"></span>
+        <span class="comments-skeleton-bar"></span>
+        <span class="comments-skeleton-bar comments-skeleton-bar--short"></span>
+      </div>
+
+      <div class="comments-mount" id="comments-mount">
+        
+          <script src="https://giscus.app/client.js"
+                  data-repo="monishguy/blogcomments"
+                  data-repo-id="R_kgDOVWeObw"
+                  data-category="Announcements"
+                  data-category-id="DIC_kwDOVWeOb84DJjdb"
+                  data-mapping="pathname"
+                  data-strict="0"
+                  data-reactions-enabled="1"
+                  data-emit-metadata="0"
+                  data-input-position="top"
+                  data-theme="light"
+                  data-lang="zh-CN"
+                  data-loading="lazy"
+                  crossorigin="anonymous"
+                  async>
+          </script>
+        
+      </div>
+    </div>
+  </section>
 
 
   </footer>
@@ -537,8 +598,6 @@
     
     
       <a class="drawer-link" href="/archives/">归档</a>
-    
-      <a class="drawer-link" href="/categories/">分类</a>
     
       <a class="drawer-link" href="/tags/">标签</a>
     
