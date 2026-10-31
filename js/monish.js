@@ -884,6 +884,93 @@
   }
 
   // -------------------------------------------------------------------------
+  // 脚注悬浮框：靠近边缘时翻转对齐
+  // -------------------------------------------------------------------------
+  /**
+   * 脚注内容由 CSS 在 :hover / :focus-within 时展开，默认是「以角标为中心」。
+   * 角标如果正好落在行尾，居中的浮层会溢出卡片右边缘被裁掉（窄屏尤其明显）。
+   * 这里在展开前量一次浮层的位置，溢出了就加 is-flip-start / is-flip-end
+   * 改成左对齐 / 右对齐 —— 纯 CSS 做不到「量完再决定」，所以留这一小段 JS。
+   */
+  function initFootnotes() {
+    var refs = $$('.monish-prose .fn-ref');
+    if (!refs.length) return;
+
+    var MARGIN = 12;
+
+    function place(ref) {
+      var pop = $('.fn-pop', ref);
+      if (!pop) return;
+      ref.classList.remove('is-flip-start', 'is-flip-end');
+      var rect = pop.getBoundingClientRect();
+      var width = document.documentElement.clientWidth;
+      if (rect.left < MARGIN) ref.classList.add('is-flip-start');
+      else if (rect.right > width - MARGIN) ref.classList.add('is-flip-end');
+    }
+
+    refs.forEach(function (ref) {
+      on(ref, 'mouseenter', function () { place(ref); });
+      on(ref, 'focusin', function () { place(ref); });
+    });
+  }
+  // -------------------------------------------------------------------------
+  // 浏览量（第三方计数服务）
+  // -------------------------------------------------------------------------
+  /**
+   * 静态站没有后端，数字由第三方服务在运行时填进 #busuanzi_value_* /
+   * #vercount_value_*。两条铁律：
+   *
+   * 1. **必须等 window load 之后再注入脚本**。第三方计数脚本（尤其不蒜子）
+   *    没有超时，接口挂住时会一直占着请求；直接写在 HTML 里会拖住 load 事件
+   *    （实测卡到 30s+）。计数晚几百毫秒出现完全没关系，但不能影响首屏。
+   * 2. 服务不可达时不能一直显示占位的「—」，超时就把整个 meta 项隐藏。
+   */
+  function initPageview() {
+    var provider = root.getAttribute('data-pv') || '';
+    if (!provider || provider === 'none') return;
+
+    var items = $$('.meta-item[data-pageview]');
+    if (!items.length) return;
+
+    var SOURCE = {
+      // 不蒜子：老牌，但接口经常 502，脚本本身没有超时
+      busuanzi: 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js',
+      // Vercount：不蒜子的替代品，内置 5s 超时、失败回退 localStorage 缓存，
+      // 同时支持 busuanzi_value_* 与 vercount_value_* 两种元素 id
+      vercount: 'https://events.vercount.one/js'
+    };
+    var url = SOURCE[provider];
+    if (!url) return;
+
+    function filled() {
+      var spans = $$('[id^="busuanzi_value_"], [id^="vercount_value_"]', items[0]);
+      if (!spans.length) return false;
+      return spans.some(function (el) {
+        return /\d/.test((el.textContent || '').trim());
+      });
+    }
+
+    function hide() {
+      items.forEach(function (el) { el.classList.add('is-hidden'); });
+      root.classList.add('no-pageview');
+    }
+
+    function load() {
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = url;
+      script.onerror = hide;
+      document.body.appendChild(script);
+
+      setTimeout(function () {
+        if (!filled()) hide();
+      }, 6000);
+    }
+
+    if (document.readyState === 'complete') load();
+    else on(window, 'load', load);
+  }
+  // -------------------------------------------------------------------------
   // 启动
   // -------------------------------------------------------------------------
   // 入场标记：脚本位于 body 末尾，此时 HTML 已解析完，同步加 class 可让
@@ -904,6 +991,8 @@
     initLightbox();
     initSearch();
     initComments();
+    initFootnotes();
+    initPageview();
     root.classList.add('monish-ready');
   }
 
